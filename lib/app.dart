@@ -1,4 +1,4 @@
-import './presentation/features/login/screen/login_screen.dart';
+import 'package:to_do/presentation/features/home/screen/empty_home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,7 +10,7 @@ class App extends StatelessWidget {
     return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: LoginScreen(),
+        body: EmptyHomeScreen(),
       ),
     );
   }
