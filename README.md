@@ -21,9 +21,9 @@ Follow these steps to get the app up and running on your local development envir
 
 1. **Clone the Repository**:
 
-   ```bash
+```bash
    git clone https://github.com/Jawabreh0/To-Do-App.git
-   ```
+```
 2. **Install Dependencies**: 
  ```bash
   flutter pub get
