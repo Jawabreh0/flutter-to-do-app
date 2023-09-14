@@ -10,10 +10,10 @@ This is a Flutter-based To-Do App that allows users to create, edit, and delete 
 
 - **SQLite Database**: Store your tasks locally using SQLite, ensuring data is saved even when the app is closed.
 
-## App Design 
+## App Design
 
-Here is the application Figma design check it out if you're interested
-https://www.figma.com/file/7qccpxvr08wUB6XkfIeUa1/pcnc-todo-task?type=design&node-id=0-1&mode=design&t=ZeV0vFZOB5QkT18I-0.
+Here is the application Figma design. [Check it out if you're interested](https://www.figma.com/file/7qccpxvr08wUB6XkfIeUa1/pcnc-todo-task?type=design&node-id=0-1&mode=design&t=ZeV0vFZOB5QkT18I-0).
+
 
 ## Getting Started
 
