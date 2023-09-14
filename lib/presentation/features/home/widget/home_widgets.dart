@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:to_do/core/app-colors/palette.dart';
 
 Widget appBarTitle() {
   return Row(
@@ -68,18 +67,6 @@ Widget emptyHomeSecText() {
         letterSpacing: -0.5,
         color: Colors.white,
       ),
-    ),
-  );
-}
-
-Widget makeNewTask() {
-  return FloatingActionButton(
-    backgroundColor: appSecendoryColor,
-    onPressed: () {},
-    child: const Icon(
-      Icons.add,
-      color: Colors.white,
-      size: 32,
     ),
   );
 }
