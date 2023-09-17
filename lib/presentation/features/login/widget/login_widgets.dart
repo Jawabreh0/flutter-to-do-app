@@ -28,7 +28,7 @@ class LoginWidgets {
           getAvailableBiometrics();
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: appSecendoryColor,
+          backgroundColor: appSecondaryColor,
           minimumSize: const Size.fromHeight(45),
         ),
         child: const Text(

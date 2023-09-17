@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:to_do/presentation/features/login/screen/login_screen.dart';
+import 'package:to_do/presentation/features/home/screen/empty_home.dart';
 
 class App extends StatelessWidget {
   const App({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: LoginScreen(),
+        body: EmptyHomeScreen(),
       ),
     );
   }

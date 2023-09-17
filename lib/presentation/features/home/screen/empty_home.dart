@@ -35,8 +35,20 @@ class EmptyHomeState extends State<EmptyHomeScreen> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: appSecendoryColor,
-          onPressed: () {},
+          backgroundColor: appSecondaryColor,
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: createNewTask(),
+              ),
+              backgroundColor: bottomSheetColor,
+            );
+          },
           child: const Icon(
             Icons.add,
             color: Colors.white,
