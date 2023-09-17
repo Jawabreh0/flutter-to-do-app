@@ -96,8 +96,7 @@ Widget createNewTask() {
         height: 16.0,
       ),
       Padding(
-        padding:
-            const EdgeInsets.fromLTRB(24.0, 0.0, 26.0, 0.0), // Adjusted padding
+        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 26.0, 0.0),
         child: TextField(
           style: const TextStyle(
             fontFamily: 'Lato',
@@ -105,14 +104,12 @@ Widget createNewTask() {
             fontWeight: FontWeight.w400,
             color: Colors.white,
           ),
-          textAlignVertical:
-              TextAlignVertical.center, // Center the text vertically
+          textAlignVertical: TextAlignVertical.center,
           decoration: InputDecoration(
             hintText: 'Task Title',
             hintStyle: TextStyle(
-              color: hintFontColor, // Set hint text color to hintFontColor
+              color: hintFontColor,
             ),
-            // Set text color for entered text to white when focused
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: fieldBordersColor,
@@ -123,8 +120,7 @@ Widget createNewTask() {
                 color: fieldBordersColor,
               ),
             ),
-            contentPadding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0,
-                8.0), // Set the padding between text and border
+            contentPadding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
           ),
           autofocus: true,
         ),
@@ -133,8 +129,7 @@ Widget createNewTask() {
         height: 12.0,
       ),
       Padding(
-        padding:
-            const EdgeInsets.fromLTRB(24.0, 0.0, 26.0, 0.0), // Adjusted padding
+        padding: const EdgeInsets.fromLTRB(24.0, 0.0, 26.0, 0.0),
         child: TextField(
           style: const TextStyle(
             fontFamily: 'Lato',
@@ -142,57 +137,64 @@ Widget createNewTask() {
             fontWeight: FontWeight.w400,
             color: Colors.white,
           ),
-          textAlignVertical:
-              TextAlignVertical.center, // Center the text vertically
+          textAlignVertical: TextAlignVertical.center,
           decoration: InputDecoration(
             hintText: 'Description',
             hintStyle: TextStyle(
-              color: hintFontColor, // Set hint text color to hintFontColor
+              color: hintFontColor,
             ),
-            // Set text color for entered text to white when focused
-            focusedBorder: InputBorder.none, // Remove focused border
-            enabledBorder: InputBorder.none, // Remove enabled border
-            contentPadding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0,
-                8.0), // Set the padding between text and border
+            focusedBorder: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            contentPadding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
           ),
         ),
       ),
-      const SizedBox(
-        height: 16.0,
-      ),
-      Padding(
-        padding:
-            const EdgeInsets.fromLTRB(24.0, 0.0, 26.0, 0.0), // Adjusted padding
-        child: TextField(
-          style: const TextStyle(
-            fontFamily: 'Lato',
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
+      const SizedBox(height: 16.0),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              IconButton(
+                icon: SvgPicture.asset(
+                  'assets/icons/timer-icon.svg',
+                  width: 24.0,
+                  height: 24.0,
+                ),
+                onPressed: () {
+                  //TODO
+                },
+                color: Colors.white,
+              ),
+              const SizedBox(
+                width: 16.0,
+              ),
+              IconButton(
+                icon: SvgPicture.asset(
+                  'assets/icons/tag-icon.svg',
+                  width: 24.0,
+                  height: 24.0,
+                ),
+                onPressed: () {
+                  //TODO
+                },
+                color: Colors.white,
+              ),
+            ],
+          ),
+          Expanded(
+            child: Container(),
+          ),
+          IconButton(
+            icon: SvgPicture.asset(
+              'assets/icons/send-icon.svg',
+              width: 24.0,
+              height: 24.0,
+            ),
+            onPressed: () {},
             color: Colors.white,
           ),
-          textAlignVertical:
-              TextAlignVertical.center, // Center the text vertically
-          decoration: InputDecoration(
-            hintText: 'Task Title',
-            hintStyle: TextStyle(
-              color: hintFontColor, // Set hint text color to hintFontColor
-            ),
-            // Set text color for entered text to white when focused
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: fieldBordersColor,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: fieldBordersColor,
-              ),
-            ),
-            contentPadding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0,
-                8.0), // Set the padding between text and border
-          ),
-          autofocus: true,
-        ),
+        ],
       ),
     ],
   );

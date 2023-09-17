@@ -3,7 +3,7 @@
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:to_do/presentation/features/home/screen/empty_home.dart';
+import 'package:to_do/presentation/features/home/screen/home_screen.dart';
 
 class LoginController extends GetxController {
   final LocalAuthentication auth = LocalAuthentication();
@@ -48,8 +48,8 @@ class LoginController extends GetxController {
   Future<void> getAvailableBiometrics() async {
     try {
       await auth.getAvailableBiometrics();
-      bool _supportState = await auth.isDeviceSupported();
-      if (_supportState) {
+      bool supportState = await auth.isDeviceSupported();
+      if (supportState) {
         print('supported');
       } else {
         print('not supported');
