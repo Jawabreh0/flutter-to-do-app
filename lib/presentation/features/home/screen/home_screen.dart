@@ -1,26 +1,14 @@
 // empty_home_screen.dart
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:to_do/core/app-colors/palette.dart';
+import 'package:to_do/presentation/features/home/controller/home_ctrl.dart';
 import '../widget/home_widgets.dart';
-import '../controller/home_ctrl.dart';
 
-class EmptyHomeScreen extends StatefulWidget {
-  const EmptyHomeScreen({super.key});
+class EmptyHomeScreen extends StatelessWidget {
+  EmptyHomeScreen({super.key});
 
-  @override
-  createState() {
-    return EmptyHomeState();
-  }
-}
-
-class EmptyHomeState extends State<EmptyHomeScreen> {
-  final HomeController _controller = HomeController();
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  final HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +17,7 @@ class EmptyHomeState extends State<EmptyHomeScreen> {
           backgroundColor: appColor,
           titleSpacing: 24.0,
           elevation: 0,
-          title: appBarTitle(),
+          title: HomeWidgets.appBarTitle(),
         ),
         backgroundColor: appColor,
         body: SingleChildScrollView(
@@ -37,9 +25,9 @@ class EmptyHomeState extends State<EmptyHomeScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                emptyHomeImage(),
-                emptyHomeMainText(),
-                emptyHomeSecText()
+                HomeWidgets.emptyHomeImage(),
+                HomeWidgets.emptyHomeMainText(),
+                HomeWidgets.emptyHomeSecText()
               ],
             ),
           ),
@@ -54,16 +42,20 @@ class EmptyHomeState extends State<EmptyHomeScreen> {
                 padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom,
                 ),
-                child: createNewTask(),
+                child: HomeWidgets.createNewTask(context),
               ),
               backgroundColor: bottomSheetColor,
             );
           },
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 32,
-          ),
+          child: Obx(() {
+            return Icon(
+              Icons.add,
+              color: controller.isButtonPressed.value
+                  ? Colors.green
+                  : Colors.white,
+              size: 32,
+            );
+          }),
         ));
   }
 }
