@@ -25,9 +25,7 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                HomeWidgets.homeImage(),
-                HomeWidgets.homeMainText(),
-                HomeWidgets.homeSecText()
+                HomeWidgets.homeBodyWithRecords(),
               ],
             ),
           ),

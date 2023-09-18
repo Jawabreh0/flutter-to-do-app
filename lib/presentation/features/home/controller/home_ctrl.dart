@@ -4,7 +4,6 @@ import 'package:to_do/data/sqldb.dart';
 
 class HomeController extends GetxController {
   SqlDb sqlDb = SqlDb();
-
   RxBool isButtonPressed = false.obs;
   RxString taskTitle = "".obs;
   RxString taskDescription = "".obs;
@@ -35,15 +34,10 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> readAllTasks() async {
+  Future<List<Map>> readAllTasks() async {
     List<Map<dynamic, dynamic>> response =
         await sqlDb.readData("SELECT * FROM 'Tasks'");
-    print(response);
-  }
-
-  printDate() {
-    print(taskDate);
-    print(taskTime);
+    return response;
   }
 
   Future<int> readTotalTableRecords() async {
@@ -52,12 +46,21 @@ class HomeController extends GetxController {
 
     if (response.isNotEmpty) {
       int recordCount = response[0]['count'];
-      print('Number of records in Tasks table: $recordCount');
       return recordCount;
     } else {
-      // Handle the case where no records were found (return 0 or an appropriate value).
-      print('No records found in Tasks table.');
       return 0;
     }
+  }
+
+  bool isToday(String taskDate) {
+    // Get today's date
+    DateTime now = DateTime.now();
+
+    // Format the current date as a string in the same format as your taskDate
+    String formattedDate =
+        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+
+    // Compare the taskDate with today's date
+    return taskDate == formattedDate;
   }
 }

@@ -6,36 +6,59 @@ import 'package:to_do/presentation/features/home/controller/home_ctrl.dart';
 import 'package:intl/intl.dart';
 
 class HomeWidgets {
-  static appBarTitle() {
-    return Row(
+  static FutureBuilder<int> appBarTitle() {
+    final HomeController controller = Get.find<HomeController>();
+
+    return FutureBuilder<int>(
+      future: controller.readTotalTableRecords(),
+      builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return const Text("Task Null");
+        } else {
+          return Row(
+            children: [
+              Text(
+                'Task ${snapshot.data}',
+                style: const TextStyle(
+                  fontFamily: 'Lato',
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: -0.5,
+                  color: Colors.white,
+                ),
+              ),
+              const Spacer(),
+              const Text(
+                'Home',
+                style: TextStyle(
+                  fontFamily: 'Lato',
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: -0.5,
+                  color: Colors.white,
+                ),
+              ),
+              const Spacer(),
+              SvgPicture.asset(
+                'assets/icons/calendar.svg',
+                width: 24.0,
+                height: 24.0,
+              ),
+            ],
+          );
+        }
+      },
+    );
+  }
+
+  static Widget emptyHomeBody() {
+    return Column(
       children: [
-        const Text(
-          'Task 0',
-          style: TextStyle(
-            fontFamily: 'Lato',
-            fontSize: 20.0,
-            fontWeight: FontWeight.w400,
-            letterSpacing: -0.5,
-            color: Colors.white,
-          ),
-        ),
-        const Spacer(),
-        const Text(
-          'Home',
-          style: TextStyle(
-            fontFamily: 'Lato',
-            fontSize: 20.0,
-            fontWeight: FontWeight.w400,
-            letterSpacing: -0.5,
-            color: Colors.white,
-          ),
-        ),
-        const Spacer(),
-        SvgPicture.asset(
-          'assets/icons/calendar.svg',
-          width: 24.0,
-          height: 24.0,
-        ),
+        homeImage(),
+        homeMainText(),
+        homeSecText(),
       ],
     );
   }
@@ -342,6 +365,60 @@ class HomeWidgets {
           ),
         );
       },
+    );
+  }
+
+  static Widget homeBodyWithRecords() {
+    final HomeController controller = Get.find<HomeController>();
+    return Column(
+      children: [
+        FutureBuilder(
+          future: controller.readAllTasks(),
+          builder: (BuildContext context, AsyncSnapshot<List<Map>> snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, i) {
+                  return Container(
+                    margin: const EdgeInsets.only(
+                        top: 14,
+                        left: 24,
+                        right: 24), // Add 16 pixels margin at the bottom
+                    child: Card(
+                      color: bottomSheetColor,
+                      child: ListTile(
+                        //leading: left icon,
+                        title: Text(
+                          "${snapshot.data![i]['taskTitle']}",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        subtitle: Text(
+                          controller.isToday(snapshot.data![i]['taskDate'])
+                              ? "Today At ${snapshot.data![i]['taskTime']}"
+                              : "${snapshot.data![i]['taskDate']} At ${snapshot.data![i]['taskTime']}",
+                          style: TextStyle(
+                            color: hintFontColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        // trailing: right icon,
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
+        ),
+      ],
     );
   }
 }
