@@ -13,7 +13,7 @@ class HomeController extends GetxController {
   void insertNewTask() async {
     int response = await sqlDb.insertData(
         ''' INSERT INTO Tasks (taskTitle, taskDescription, taskDate, taskTime, taskCategory, taskPrivacy)
-     VALUES ('$taskTitle', '$taskDescription', '$taskDate', '12:35', 'Home', 0) ''');
+     VALUES ('$taskTitle', '$taskDescription', '$taskDate', '$taskTime', 'Home', 0) ''');
     print(response);
   }
 
@@ -26,5 +26,20 @@ class HomeController extends GetxController {
   printDate() {
     print(taskDate);
     print(taskTime);
+  }
+
+  Future<int> readTableRecords() async {
+    List<Map<dynamic, dynamic>> response =
+        await sqlDb.readData("SELECT COUNT(*) as count FROM 'Tasks'");
+
+    if (response.isNotEmpty) {
+      int recordCount = response[0]['count'];
+      print('Number of records in Tasks table: $recordCount');
+      return recordCount;
+    } else {
+      // Handle the case where no records were found (return 0 or an appropriate value).
+      print('No records found in Tasks table.');
+      return 0;
+    }
   }
 }
