@@ -100,13 +100,13 @@ class HomeWidgets {
                 const SizedBox(
                   width: 16.0,
                 ),
-                tagIconButton(),
+                tagIconButton(context),
               ],
             ),
             Expanded(
               child: Container(),
             ),
-            sendIconButton(),
+            sendIconButton(context),
           ],
         ),
       ],
@@ -248,7 +248,7 @@ class HomeWidgets {
     );
   }
 
-  static Widget tagIconButton() {
+  static Widget tagIconButton(context) {
     return IconButton(
       icon: SvgPicture.asset(
         'assets/icons/tag-icon.svg',
@@ -256,15 +256,14 @@ class HomeWidgets {
         height: 24.0,
       ),
       onPressed: () {
-        //TODO
+        showCategoryDialog(context);
       },
       color: Colors.white,
     );
   }
 
-  static Widget sendIconButton() {
+  static Widget sendIconButton(BuildContext context) {
     final HomeController controller = Get.find<HomeController>();
-
     return IconButton(
       icon: SvgPicture.asset(
         'assets/icons/send-icon.svg',
@@ -272,12 +271,77 @@ class HomeWidgets {
         height: 24.0,
       ),
       onPressed: () {
-        controller.printDate();
-        /*controller.insertNewTask();
-                controller.readAllTasks(); // Print task details
-                Navigator.of(context).pop();*/ // Close the bottom sheet
+        controller.insertNewTask(context);
+        controller.readAllTasks(); // Print task details
+        Navigator.of(context).pop(); // Close the bottom sheet
       },
       color: Colors.white,
+    );
+  }
+
+  static void showCategoryDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: bottomSheetColor,
+          title: Column(
+            children: [
+              const Center(
+                child: Text(
+                  'Choose Category',
+                  style: TextStyle(
+                    fontFamily: 'Lato',
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Divider(
+                color: fieldBordersColor,
+                thickness: 1,
+              ),
+            ],
+          ),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // TODO
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: bottomSheetColor,
+                    elevation: 0,
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(fontSize: 18, color: appSecondaryColor),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // TODO
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: appSecondaryColor,
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: const Text(
+                    'Choose',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

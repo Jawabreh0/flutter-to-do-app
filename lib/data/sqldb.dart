@@ -20,29 +20,41 @@ class SqlDb {
     String path = join(databasepath, 'ToDoApp.db');
     // database creation
     Database mydb = await openDatabase(path,
-        onCreate: _onCreate, version: 1, onUpgrade: _onUpgrade);
+        onCreate: _onCreate, version: 2, onUpgrade: _onUpgrade);
     return mydb;
   }
 
   _onUpgrade(Database db, int oldversion, int newversion) {
-    print("[INFO] ... DB UPDATED ... )");
+    print("[INFO] ... Database UPDATED ... )");
   }
 
   _onCreate(Database db, int version) async {
-    // creating the table
+    // Creating the 'Tasks' table
     await db.execute('''
     CREATE TABLE Tasks (
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
       taskTitle TEXT NOT NULL,
       taskDescription TEXT NOT NULL,
-      taskDate TEXT,  -- Storing date as text
-      taskTime TEXT,  -- Storing time as text
-      taskCategory TEXT,
+      taskDate TEXT NOT NULL,  -- Storing date as text
+      taskTime TEXT NOT NULL,  -- Storing time as text
+      taskCategory TEXT NOT NULL,
       taskPrivacy INTEGER  -- Storing boolean (0 for false, 1 for true)
-    )
+    );
   ''');
-    print("[INFO] ... Table Created ... ");
+
+    // Creating the 'Categories' table
+    await db.execute('''
+    CREATE TABLE Categories (
+      catgID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      catgName TEXT NOT NULL,
+      catgIcon TEXT NOT NULL,
+      catgColor TEXT NOT NULL
+    );
+  ''');
+
+    print("[INFO] ... Tables Created ... ");
   }
+
 // SELECT
 
   readData(String sql) async {
