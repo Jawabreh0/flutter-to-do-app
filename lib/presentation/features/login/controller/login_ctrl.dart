@@ -38,7 +38,7 @@ class LoginController extends GetxController {
       print("AUTHENTICATED : $authenticated");
 
       if (authenticated) {
-        Get.offAll(EmptyHomeScreen());
+        Get.offAll(HomeScreen());
       }
     } on PlatformException catch (e) {
       print(e);

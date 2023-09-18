@@ -5,8 +5,8 @@ import 'package:to_do/core/app-colors/palette.dart';
 import 'package:to_do/presentation/features/home/controller/home_ctrl.dart';
 import '../widget/home_widgets.dart';
 
-class EmptyHomeScreen extends StatelessWidget {
-  EmptyHomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
 
   final HomeController controller = Get.put(HomeController());
 
@@ -25,9 +25,9 @@ class EmptyHomeScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                HomeWidgets.emptyHomeImage(),
-                HomeWidgets.emptyHomeMainText(),
-                HomeWidgets.emptyHomeSecText()
+                HomeWidgets.homeImage(),
+                HomeWidgets.homeMainText(),
+                HomeWidgets.homeSecText()
               ],
             ),
           ),

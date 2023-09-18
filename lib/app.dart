@@ -10,7 +10,7 @@ class App extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: EmptyHomeScreen(),
+        body: HomeScreen(),
       ),
     );
   }
