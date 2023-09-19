@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_do/core/app-colors/palette.dart';
-import 'package:to_do/presentation/features/create_catg/controller/catg_ctrl.dart';
+import '../controller/catg_ctrl.dart';
 
 class CreateCatgWidget {
   static Widget createCatgBody() {
@@ -38,9 +38,13 @@ class CreateCatgWidget {
   }
 
   static Widget catgNameField() {
+    final CatgController controller = Get.put(CatgController());
     return Padding(
       padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 16.0),
       child: TextField(
+        onChanged: (value) {
+          controller.catgName.value = value;
+        },
         style: const TextStyle(
           fontFamily: 'Lato',
           fontSize: 16,
@@ -85,29 +89,91 @@ class CreateCatgWidget {
   }
 
   static Widget chooseCatgButton() {
+    final CatgController controller = Get.put(CatgController());
     return Padding(
-        padding: const EdgeInsets.only(left: 24, bottom: 20),
-        child: ElevatedButton(
-          onPressed: () {
-            //TODO
-          },
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6.0),
-            ),
+      padding: const EdgeInsets.only(left: 24, bottom: 20),
+      child: ElevatedButton(
+        onPressed: () {
+          Get.defaultDialog(
             backgroundColor: bottomSheetColor,
-          ),
-          child: const Text(
-            'Choose icon from library',
-            style: TextStyle(
-              fontFamily: 'Lato',
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: Colors.white,
+            title: 'Choose an Icon',
+            titleStyle: const TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
+            content: SizedBox(
+              width: double.maxFinite,
+              height: 250,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Divider(
+                      color: fieldBordersColor,
+                      thickness: 1,
+                    ),
+                    const SizedBox(height: 30),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: (controller.iconList.length / 3).ceil(),
+                      itemBuilder: (BuildContext context, int rowIndex) {
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                for (int i = rowIndex * 3;
+                                    i < (rowIndex * 3 + 3);
+                                    i++)
+                                  if (i < controller.iconList.length)
+                                    InkWell(
+                                      onTap: () {
+                                        IconData selectedIcon =
+                                            controller.iconList[i];
+                                        controller
+                                            .handleSelectedButton(selectedIcon);
+                                        Get.back(result: selectedIcon);
+                                      },
+                                      child: Icon(
+                                        controller.iconList[i],
+                                        color: Colors.white,
+                                        size: 35,
+                                      ),
+                                    ),
+                              ],
+                            ),
+                            const SizedBox(height: 50),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ),
+          ).then((value) {
+            if (value != null) {
+              IconData selectedIcon = value;
+              // Do something with the selected icon
+            }
+          });
+        },
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6.0),
           ),
-        ));
+          backgroundColor: bottomSheetColor,
+        ),
+        child: const Text(
+          'Choose icon from library',
+          style: TextStyle(
+            fontFamily: 'Lato',
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
   }
 
   static Widget catgColorText() {
@@ -165,6 +231,7 @@ class CreateCatgWidget {
   }
 
   static Widget createCatgButton() {
+    final CatgController controller = Get.put(CatgController());
     return Padding(
       padding: const EdgeInsets.only(bottom: 60, left: 24, right: 24),
       child: Row(
@@ -172,9 +239,7 @@ class CreateCatgWidget {
         children: [
           Expanded(
             child: ElevatedButton(
-              onPressed: () {
-                // TODO
-              },
+              onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: appColor,
                 elevation: 0,
@@ -194,7 +259,11 @@ class CreateCatgWidget {
           Expanded(
             child: ElevatedButton(
               onPressed: () {
-                // TODO
+                controller.printFun();
+                IconData? selectedIcon = controller.selectedIcon.value;
+                if (selectedIcon != null) {
+                  controller.handleSelectedButton(selectedIcon);
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: appSecondaryColor,
