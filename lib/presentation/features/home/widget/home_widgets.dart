@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 class HomeWidgets {
   static FutureBuilder<int> appBarTitle() {
     final HomeController controller = Get.find<HomeController>();
-
     return FutureBuilder<int>(
       future: controller.readTotalTableRecords(),
       builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
@@ -372,6 +371,17 @@ class HomeWidgets {
     final HomeController controller = Get.find<HomeController>();
     return Column(
       children: [
+        const TextField(
+          decoration: InputDecoration(
+            labelText: 'search',
+            labelStyle: TextStyle(color: Colors.white),
+            prefixIcon: Icon(
+              Icons.search,
+            ),
+            prefixIconColor: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 20),
         FutureBuilder(
           future: controller.readAllTasks(),
           builder: (BuildContext context, AsyncSnapshot<List<Map>> snapshot) {
@@ -382,10 +392,7 @@ class HomeWidgets {
                 shrinkWrap: true,
                 itemBuilder: (context, i) {
                   return Container(
-                    margin: const EdgeInsets.only(
-                        top: 14,
-                        left: 24,
-                        right: 24), // Add 16 pixels margin at the bottom
+                    margin: const EdgeInsets.only(top: 14, left: 24, right: 24),
                     child: Card(
                       color: bottomSheetColor,
                       child: ListTile(

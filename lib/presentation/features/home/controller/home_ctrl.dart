@@ -53,14 +53,9 @@ class HomeController extends GetxController {
   }
 
   bool isToday(String taskDate) {
-    // Get today's date
     DateTime now = DateTime.now();
-
-    // Format the current date as a string in the same format as your taskDate
     String formattedDate =
         "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
-
-    // Compare the taskDate with today's date
     return taskDate == formattedDate;
   }
 }
