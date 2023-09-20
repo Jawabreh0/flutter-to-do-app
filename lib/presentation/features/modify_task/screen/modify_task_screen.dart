@@ -11,7 +11,7 @@ class ModifyTaskScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: appColor,
         elevation: 0,
-        title: ModifyTaskWidgets.appBar(),
+        title: ModifyTaskWidgets.modifyTaskAppBar(),
       ),
     );
   }
