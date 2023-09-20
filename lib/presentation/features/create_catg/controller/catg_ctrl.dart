@@ -6,24 +6,14 @@ class CatgController extends GetxController {
   Rx<IconData?> selectedIcon = Rx<IconData?>(null);
   RxString catgName = "".obs;
 
-  void changeColor(Color color) {
-    selectedColor.value = color;
-  }
-
   void printFun() {
     print(
-        "Selected Color:${selectedColor.value} and the Catg Name : ${catgName.value}");
-  }
-
-  void handleSelectedButton(IconData selectedIcon) {
-    this.selectedIcon.value = selectedIcon;
-    print("Selected Icon: $selectedIcon");
+        "Selected Color:$selectedColor and the Catg Name : $catgName  Icon:$selectedIcon");
   }
 
   final List<Color> colorsList = [
     Colors.yellow,
     Colors.green,
-    Colors.blueAccent,
     Colors.blue,
     Colors.lightBlue,
     Colors.orange,
