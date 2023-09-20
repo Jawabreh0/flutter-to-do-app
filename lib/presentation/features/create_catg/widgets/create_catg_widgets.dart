@@ -6,11 +6,11 @@ import '../controller/catg_ctrl.dart';
 class CreateCatgWidget {
   static Widget createCatgBody() {
     return Container(
-      color: appColor, // Set the background color to black
+      color: appColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //catgs(),
+          //catgs
           catgNameText(),
           catgNameField(),
           catgIconText(),
