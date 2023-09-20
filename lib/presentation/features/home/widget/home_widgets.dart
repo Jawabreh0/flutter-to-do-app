@@ -371,16 +371,7 @@ class HomeWidgets {
     final HomeController controller = Get.find<HomeController>();
     return Column(
       children: [
-        const TextField(
-          decoration: InputDecoration(
-            labelText: 'search',
-            labelStyle: TextStyle(color: Colors.white),
-            prefixIcon: Icon(
-              Icons.search,
-            ),
-            prefixIconColor: Colors.white,
-          ),
-        ),
+        homeSearchBar(),
         const SizedBox(height: 20),
         FutureBuilder(
           future: controller.readAllTasks(),
@@ -427,5 +418,33 @@ class HomeWidgets {
         ),
       ],
     );
+  }
+
+  static Widget homeSearchBar() {
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(24, 25, 24, 0),
+        child: TextField(
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(20.0),
+            labelText: 'Search for your task...',
+            labelStyle: TextStyle(color: hintFontColor),
+            prefixIcon: const Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white,
+                width: 0.8,
+              ),
+            ),
+            enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.white,
+                width: 0.8,
+              ),
+            ),
+          ),
+        ));
   }
 }
