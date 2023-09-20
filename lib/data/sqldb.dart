@@ -20,7 +20,7 @@ class SqlDb {
     String path = join(databasepath, 'ToDoApp.db');
     // database creation
     Database mydb = await openDatabase(path,
-        onCreate: _onCreate, version: 2, onUpgrade: _onUpgrade);
+        onCreate: _onCreate, version: 3, onUpgrade: _onUpgrade);
     return mydb;
   }
 
@@ -48,7 +48,11 @@ class SqlDb {
       catgID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
       catgName TEXT NOT NULL,
       catgIcon TEXT NOT NULL,
-      catgColor TEXT NOT NULL
+      catgColor TEXT NOT NULL,
+      materialIconCodePoint INTEGER,  
+      materialIconFontFamily TEXT,
+      materialIconFontPackage TEXT,
+      materialIconDirection BOOLEAN
     );
   ''');
 

@@ -13,6 +13,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: appColor,
           titleSpacing: 24.0,
@@ -25,7 +26,13 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                HomeWidgets.homeBodyWithRecords(),
+                Obx(() {
+                  if (controller.recordCount.value == 0) {
+                    return HomeWidgets.emptyHomeBody();
+                  } else {
+                    return HomeWidgets.homeBodyWithRecords();
+                  }
+                }),
               ],
             ),
           ),

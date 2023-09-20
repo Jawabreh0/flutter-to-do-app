@@ -9,6 +9,7 @@ class HomeController extends GetxController {
   RxString taskDescription = "".obs;
   var taskDate = "".obs;
   var taskTime = "".obs;
+  var recordCount = 0.obs;
 
   void insertNewTask(BuildContext context) async {
     int response = await sqlDb.insertData(
@@ -45,8 +46,9 @@ class HomeController extends GetxController {
         await sqlDb.readData("SELECT COUNT(*) as count FROM 'Tasks'");
 
     if (response.isNotEmpty) {
-      int recordCount = response[0]['count'];
-      return recordCount;
+      int count = response[0]['count'];
+      recordCount.value = count;
+      return count;
     } else {
       return 0;
     }
