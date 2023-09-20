@@ -11,7 +11,9 @@ class HomeController extends GetxController {
   var taskTime = "".obs;
   var recordCount = 0.obs;
   var searchQuery = ''.obs;
-  var filteredTasks = <Map<dynamic, dynamic>>[].obs;
+  RxList<Map<dynamic, dynamic>> filteredTasks = RxList<Map<dynamic, dynamic>>();
+  RxInt selectedTaskIndex = (-1).obs;
+  RxString selectedFilter = 'All'.obs;
 
   @override
   void onInit() {
@@ -79,11 +81,54 @@ class HomeController extends GetxController {
         await Get.find<HomeController>().readAllTasks();
 
     final query = searchQuery.value.toLowerCase();
-    filteredTasks.value = query.isEmpty
+    final newFilteredTasks = query.isEmpty
         ? allTasks
         : allTasks.where((task) {
             final taskTitle = task['taskTitle'].toString().toLowerCase();
             return taskTitle.contains(query);
           }).toList();
+
+    // Apply filtering based on the selected choice
+    switch (selectedFilter.value) {
+      case 'All':
+        filteredTasks.assignAll(newFilteredTasks);
+        break;
+      case 'Completed':
+        filteredTasks.assignAll(
+            newFilteredTasks.where((task) => task['taskCompletion'] == 1));
+        break;
+      case 'Today':
+        filteredTasks.assignAll(
+            newFilteredTasks.where((task) => isToday(task['taskDate'])));
+        break;
+    }
+  }
+
+  void updateTaskCompletion(int taskId, bool completed) async {
+    int completionValue = completed ? 1 : 0;
+
+    // Find the index of the task with the given taskId in the filteredTasks list
+    int taskIndex = filteredTasks.indexWhere((task) => task['id'] == taskId);
+
+    if (taskIndex != -1) {
+      // Create a copy of the task with the updated completion value
+      Map<String, dynamic> updatedTask = Map.from(filteredTasks[taskIndex]);
+      updatedTask['taskCompletion'] = completionValue;
+
+      // Update the task in the filteredTasks list with the updated copy
+      filteredTasks[taskIndex] = updatedTask;
+
+      // Update the database as well (your existing code to update the database)
+      int response = await sqlDb.updateData(''' UPDATE Tasks 
+      SET taskCompletion = $completionValue 
+      WHERE id = $taskId
+    ''');
+
+      if (response > 0) {
+        // Task completion status updated successfully.
+      } else {
+        // Task completion status update failed.
+      }
+    }
   }
 }

@@ -32,14 +32,16 @@ class SqlDb {
     // Creating the 'Tasks' table
     await db.execute('''
     CREATE TABLE Tasks (
-      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      taskTitle TEXT NOT NULL,
-      taskDescription TEXT NOT NULL,
-      taskDate TEXT NOT NULL,  -- Storing date as text
-      taskTime TEXT NOT NULL,  -- Storing time as text
-      taskCategory TEXT NOT NULL,
-      taskPrivacy INTEGER  -- Storing boolean (0 for false, 1 for true)
-    );
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  taskTitle TEXT NOT NULL,
+  taskDescription TEXT NOT NULL,
+  taskDate TEXT NOT NULL,
+  taskTime TEXT NOT NULL,
+  taskCategory TEXT NOT NULL,
+  taskPrivacy INTEGER DEFAULT 0, -- Default to false (0)
+  taskCompletion BOOLEAN DEFAULT 0 -- Default to false (0)
+);
+
   ''');
 
     // Creating the 'Categories' table
@@ -73,7 +75,7 @@ class SqlDb {
     return response;
   }
 
-  updateDate(String sql) async {
+  updateData(String sql) async {
     Database? mydb = await db;
     int response = await mydb!.rawUpdate(sql);
     return response;

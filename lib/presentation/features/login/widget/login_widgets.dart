@@ -35,7 +35,6 @@ class LoginWidgets {
           'Unlock App',
           style: TextStyle(
             color: Colors.white,
-            fontFamily: 'Lato',
             fontSize: 16.0,
             fontWeight: FontWeight.w400,
             height: 1.505,

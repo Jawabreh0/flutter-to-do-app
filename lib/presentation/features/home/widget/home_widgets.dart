@@ -21,7 +21,6 @@ class HomeWidgets {
               Text(
                 'Task ${snapshot.data}',
                 style: const TextStyle(
-                  fontFamily: 'Lato',
                   fontSize: 20.0,
                   fontWeight: FontWeight.w400,
                   letterSpacing: -0.5,
@@ -32,7 +31,6 @@ class HomeWidgets {
               const Text(
                 'Home',
                 style: TextStyle(
-                  fontFamily: 'Lato',
                   fontSize: 20.0,
                   fontWeight: FontWeight.w400,
                   letterSpacing: -0.5,
@@ -73,7 +71,6 @@ class HomeWidgets {
     return const Text(
       'What do you want to do today?',
       style: TextStyle(
-        fontFamily: 'Lato',
         fontSize: 20.0,
         fontWeight: FontWeight.w400,
         letterSpacing: -0.5,
@@ -88,7 +85,6 @@ class HomeWidgets {
       child: Text(
         'Tap + to add your tasks',
         style: TextStyle(
-          fontFamily: 'Lato',
           fontSize: 16.0,
           fontWeight: FontWeight.w400,
           letterSpacing: -0.5,
@@ -144,7 +140,6 @@ class HomeWidgets {
       child: Text(
         'Add Task',
         style: TextStyle(
-          fontFamily: 'Lato',
           fontSize: 20,
           fontWeight: FontWeight.w700,
           color: Colors.white,
@@ -162,7 +157,6 @@ class HomeWidgets {
           controller.taskTitle.value = value;
         },
         style: const TextStyle(
-          fontFamily: 'Lato',
           fontSize: 18,
           fontWeight: FontWeight.w400,
           color: Colors.white,
@@ -200,7 +194,6 @@ class HomeWidgets {
           controller.taskDescription.value = value;
         },
         style: const TextStyle(
-          fontFamily: 'Lato',
           fontSize: 18,
           fontWeight: FontWeight.w400,
           color: Colors.white,
@@ -313,7 +306,6 @@ class HomeWidgets {
                 child: Text(
                   'Choose Category',
                   style: TextStyle(
-                    fontFamily: 'Lato',
                     fontSize: 16.0,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
@@ -404,6 +396,50 @@ class HomeWidgets {
           ),
         ),
         const SizedBox(height: 20),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 24.0), // Add padding here
+            child: Container(
+              decoration: BoxDecoration(
+                color: bottomSheetColor,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0), // Adjust horizontal padding here
+                child: DropdownButton<String>(
+                  value: controller.selectedFilter.value,
+                  items:
+                      <String>['All', 'Completed', 'Today'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    if (newValue != null) {
+                      controller.selectedFilter.value = newValue;
+                      controller.filterTasks();
+                    }
+                  },
+                  underline: Container(),
+                  icon: const Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.white,
+                  ),
+                  // Set the background color of the dropdown list to red
+                  dropdownColor: bottomSheetColor,
+                ),
+              ),
+            ),
+          ),
+        ),
         Obx(() {
           final filteredTasks = controller.filteredTasks;
           if (filteredTasks.isEmpty) {
@@ -414,12 +450,40 @@ class HomeWidgets {
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (context, i) {
+                bool isCompleted = filteredTasks[i]['taskCompletion'] == 1;
                 return Container(
                   margin: const EdgeInsets.only(top: 14, left: 24, right: 24),
                   child: Card(
                     color: bottomSheetColor,
                     child: ListTile(
-                      //leading: left icon,
+                      leading: GestureDetector(
+                        onTap: () {
+                          bool newCompletionStatus = !isCompleted;
+                          controller.updateTaskCompletion(
+                            filteredTasks[i]['id'],
+                            newCompletionStatus,
+                          );
+                        },
+                        child: Container(
+                          width: 24,
+                          height: 24,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isCompleted ? Colors.blue : Colors.white,
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 2.0,
+                            ),
+                          ),
+                          child: isCompleted
+                              ? const Icon(
+                                  Icons.check,
+                                  size: 16,
+                                  color: Colors.white,
+                                )
+                              : null,
+                        ),
+                      ),
                       title: Text(
                         "${filteredTasks[i]['taskTitle']}",
                         style: const TextStyle(
@@ -438,7 +502,6 @@ class HomeWidgets {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      // trailing: right icon,
                     ),
                   ),
                 );

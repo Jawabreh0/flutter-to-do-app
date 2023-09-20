@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+//import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do/presentation/features/login/screen/login_screen.dart';
 
 class App extends StatelessWidget {
