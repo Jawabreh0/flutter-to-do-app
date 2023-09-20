@@ -10,6 +10,14 @@ class HomeController extends GetxController {
   var taskDate = "".obs;
   var taskTime = "".obs;
   var recordCount = 0.obs;
+  var searchQuery = ''.obs;
+  var filteredTasks = <Map<dynamic, dynamic>>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    filterTasks();
+  }
 
   void insertNewTask(BuildContext context) async {
     int response = await sqlDb.insertData(
@@ -59,5 +67,23 @@ class HomeController extends GetxController {
     String formattedDate =
         "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
     return taskDate == formattedDate;
+  }
+
+  void updateSearchQuery(String query) {
+    searchQuery.value = query;
+    filterTasks();
+  }
+
+  void filterTasks() async {
+    final List<Map<dynamic, dynamic>> allTasks =
+        await Get.find<HomeController>().readAllTasks();
+
+    final query = searchQuery.value.toLowerCase();
+    filteredTasks.value = query.isEmpty
+        ? allTasks
+        : allTasks.where((task) {
+            final taskTitle = task['taskTitle'].toString().toLowerCase();
+            return taskTitle.contains(query);
+          }).toList();
   }
 }

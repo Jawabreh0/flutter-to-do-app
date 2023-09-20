@@ -371,80 +371,115 @@ class HomeWidgets {
     final HomeController controller = Get.find<HomeController>();
     return Column(
       children: [
-        homeSearchBar(),
-        const SizedBox(height: 20),
-        FutureBuilder(
-          future: controller.readAllTasks(),
-          builder: (BuildContext context, AsyncSnapshot<List<Map>> snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, i) {
-                  return Container(
-                    margin: const EdgeInsets.only(top: 14, left: 24, right: 24),
-                    child: Card(
-                      color: bottomSheetColor,
-                      child: ListTile(
-                        //leading: left icon,
-                        title: Text(
-                          "${snapshot.data![i]['taskTitle']}",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        subtitle: Text(
-                          controller.isToday(snapshot.data![i]['taskDate'])
-                              ? "Today At ${snapshot.data![i]['taskTime']}"
-                              : "${snapshot.data![i]['taskDate']} At ${snapshot.data![i]['taskTime']}",
-                          style: TextStyle(
-                            color: hintFontColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        // trailing: right icon,
-                      ),
-                    ),
-                  );
-                },
-              );
-            }
-            return const Center(child: CircularProgressIndicator());
-          },
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 25, 24, 0),
+          child: TextField(
+            onChanged: controller.updateSearchQuery,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(20.0),
+              labelText: 'Search for your task...',
+              labelStyle: TextStyle(color: hintFontColor),
+              prefixIcon: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SvgPicture.asset(
+                  'assets/icons/search.svg',
+                  width: 24,
+                  height: 24,
+                ),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.white,
+                  width: 0.8,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: hintFontColor,
+                  width: 0.8,
+                ),
+              ),
+            ),
+            style: const TextStyle(color: Colors.white),
+          ),
         ),
+        const SizedBox(height: 20),
+        Obx(() {
+          final filteredTasks = controller.filteredTasks;
+          if (filteredTasks.isEmpty) {
+            return const Center(child: Text('No tasks found.'));
+          } else {
+            return ListView.builder(
+              itemCount: filteredTasks.length,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, i) {
+                return Container(
+                  margin: const EdgeInsets.only(top: 14, left: 24, right: 24),
+                  child: Card(
+                    color: bottomSheetColor,
+                    child: ListTile(
+                      //leading: left icon,
+                      title: Text(
+                        "${filteredTasks[i]['taskTitle']}",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      subtitle: Text(
+                        controller.isToday(filteredTasks[i]['taskDate'])
+                            ? "Today At ${filteredTasks[i]['taskTime']}"
+                            : "${filteredTasks[i]['taskDate']} At ${filteredTasks[i]['taskTime']}",
+                        style: TextStyle(
+                          color: hintFontColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      // trailing: right icon,
+                    ),
+                  ),
+                );
+              },
+            );
+          }
+        }),
       ],
     );
   }
 
-  static Widget homeSearchBar() {
+  /* static Widget homeSearchBar() {
     return Padding(
-        padding: const EdgeInsets.fromLTRB(24, 25, 24, 0),
-        child: TextField(
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(20.0),
-            labelText: 'Search for your task...',
-            labelStyle: TextStyle(color: hintFontColor),
-            prefixIcon: const Icon(
-              Icons.search,
-              color: Colors.white,
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.white,
-                width: 0.8,
-              ),
-            ),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.white,
-                width: 0.8,
-              ),
+      padding: const EdgeInsets.fromLTRB(24, 25, 24, 0),
+      child: TextField(
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(20.0),
+          labelText: 'Search for your task...',
+          labelStyle: TextStyle(color: hintFontColor),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SvgPicture.asset(
+              'assets/icons/search.svg',
+              width: 24,
+              height: 24,
             ),
           ),
-        ));
-  }
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white,
+              width: 0.8,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: hintFontColor,
+              width: 0.8,
+            ),
+          ),
+        ),
+      ),
+    );
+  }*/
 }
