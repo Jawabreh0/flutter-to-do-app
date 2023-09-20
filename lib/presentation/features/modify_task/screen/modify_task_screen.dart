@@ -13,6 +13,8 @@ class ModifyTaskScreen extends StatelessWidget {
         elevation: 0,
         title: ModifyTaskWidgets.modifyTaskAppBar(),
       ),
+      body: ModifyTaskWidgets.modifyTaskkBody(),
+      backgroundColor: appColor,
     );
   }
 }

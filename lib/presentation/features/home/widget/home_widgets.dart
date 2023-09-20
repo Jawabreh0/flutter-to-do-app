@@ -512,37 +512,4 @@ class HomeWidgets {
       ],
     );
   }
-
-  /* static Widget homeSearchBar() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 25, 24, 0),
-      child: TextField(
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(20.0),
-          labelText: 'Search for your task...',
-          labelStyle: TextStyle(color: hintFontColor),
-          prefixIcon: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SvgPicture.asset(
-              'assets/icons/search.svg',
-              width: 24,
-              height: 24,
-            ),
-          ),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.white,
-              width: 0.8,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: hintFontColor,
-              width: 0.8,
-            ),
-          ),
-        ),
-      ),
-    );
-  }*/
 }
