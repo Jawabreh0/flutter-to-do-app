@@ -1,26 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:to_do/core/app-colors/palette.dart';
+import 'package:get/get.dart';
+import 'package:to_do/presentation/features/modify_task/controller/modify_task_controller.dart';
 
 class ModifyTaskWidgets {
   static Widget modifyTaskAppBar() {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      leading: Container(
-        margin: const EdgeInsets.only(left: 20, bottom: 23, top: 0),
-        decoration: BoxDecoration(
-          color: modifyTaskColor,
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: IconButton(
-          icon: const Icon(
-            Icons.close,
-            color: Colors.white,
-          ),
-          onPressed: () {},
-        ),
-      ),
+      automaticallyImplyLeading: true, // Set this to true or false as needed
       actions: [
         Container(
           margin: const EdgeInsets.only(bottom: 25, top: 0),
@@ -45,11 +34,150 @@ class ModifyTaskWidgets {
   }
 
   static Widget modifyTaskkBody() {
+    return Column(children: [
+      modifyTitleDescription(),
+    ]);
+  }
+
+  static Widget modifyTitleDescription() {
+    final taskDetails = Get.arguments;
+    final ModifyTaskController controller =
+        Get.put(ModifyTaskController(taskDetails));
+    return Container(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 30, left: 28, right: 36),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Obx(
+                  () => Text(
+                    "${controller.taskTitle.value}", // Use controller's taskTitle
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                SvgPicture.asset(
+                  'assets/icons/edit.svg',
+                  width: 48,
+                  height: 48,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.only(left: 28, bottom: 35),
+            child: Row(
+              children: [
+                Obx(
+                  () => Text(
+                    "${controller.taskDescription.value}", // Use controller's taskTitle
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: hintFontColor,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 24, right: 24, bottom: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/timer-icon.svg',
+                      width: 24,
+                      height: 24,
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      "Task Time :",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(bottomSheetColor),
+                  ),
+                  child: Obx(
+                    () => Text(
+                      "${controller.taskDate.value} At ${controller.taskTime.value}", // Use controller's taskTitle
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 24, right: 24, bottom: 25),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/tag-icon.svg',
+                      width: 24,
+                      height: 24,
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      "Task Category :",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(bottomSheetColor),
+                  ),
+                  child: const Text("University"),
+                ),
+              ],
+            ),
+          ),
+          modifyTaskButtons(),
+        ],
+      ),
+    );
+  }
+
+  static Widget modifyTaskButtons() {
     return Align(
       alignment: Alignment.centerLeft,
       child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start, // Align children to the left
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 25, right: 25),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:to_do/core/app-colors/palette.dart';
 import 'package:to_do/presentation/features/home/controller/home_ctrl.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do/presentation/features/modify_task/screen/modify_task_screen.dart';
 
 class HomeWidgets {
   static FutureBuilder<int> appBarTitle() {
@@ -451,55 +452,61 @@ class HomeWidgets {
               shrinkWrap: true,
               itemBuilder: (context, i) {
                 bool isCompleted = filteredTasks[i]['taskCompletion'] == 1;
-                return Container(
-                  margin: const EdgeInsets.only(top: 14, left: 24, right: 24),
-                  child: Card(
-                    color: bottomSheetColor,
-                    child: ListTile(
-                      leading: GestureDetector(
-                        onTap: () {
-                          bool newCompletionStatus = !isCompleted;
-                          controller.updateTaskCompletion(
-                            filteredTasks[i]['id'],
-                            newCompletionStatus,
-                          );
-                        },
-                        child: Container(
-                          width: 24,
-                          height: 24,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: isCompleted ? Colors.blue : Colors.white,
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 2.0,
+                return GestureDetector(
+                  onTap: () {
+                    final taskDetails = filteredTasks[i];
+                    Get.to(const ModifyTaskScreen(), arguments: taskDetails);
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 14, left: 24, right: 24),
+                    child: Card(
+                      color: bottomSheetColor,
+                      child: ListTile(
+                        leading: GestureDetector(
+                          onTap: () {
+                            bool newCompletionStatus = !isCompleted;
+                            controller.updateTaskCompletion(
+                              filteredTasks[i]['id'],
+                              newCompletionStatus,
+                            );
+                          },
+                          child: Container(
+                            width: 24,
+                            height: 24,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: isCompleted ? Colors.blue : Colors.white,
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 2.0,
+                              ),
                             ),
+                            child: isCompleted
+                                ? const Icon(
+                                    Icons.check,
+                                    size: 16,
+                                    color: Colors.white,
+                                  )
+                                : null,
                           ),
-                          child: isCompleted
-                              ? const Icon(
-                                  Icons.check,
-                                  size: 16,
-                                  color: Colors.white,
-                                )
-                              : null,
                         ),
-                      ),
-                      title: Text(
-                        "${filteredTasks[i]['taskTitle']}",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
+                        title: Text(
+                          "${filteredTasks[i]['taskTitle']}",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      subtitle: Text(
-                        controller.isToday(filteredTasks[i]['taskDate'])
-                            ? "Today At ${filteredTasks[i]['taskTime']}"
-                            : "${filteredTasks[i]['taskDate']} At ${filteredTasks[i]['taskTime']}",
-                        style: TextStyle(
-                          color: hintFontColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
+                        subtitle: Text(
+                          controller.isToday(filteredTasks[i]['taskDate'])
+                              ? "Today At ${filteredTasks[i]['taskTime']}"
+                              : "${filteredTasks[i]['taskDate']} At ${filteredTasks[i]['taskTime']}",
+                          style: TextStyle(
+                            color: hintFontColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                     ),
