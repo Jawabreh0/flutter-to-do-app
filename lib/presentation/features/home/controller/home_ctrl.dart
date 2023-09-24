@@ -7,13 +7,14 @@ class HomeController extends GetxController {
   RxBool isButtonPressed = false.obs;
   RxString taskTitle = "".obs;
   RxString taskDescription = "".obs;
-  var taskDate = "".obs;
-  var taskTime = "".obs;
-  var recordCount = 0.obs;
-  var searchQuery = ''.obs;
+  RxString taskDate = "".obs;
+  RxString taskTime = "".obs;
+  RxInt recordCount = 0.obs;
+  RxString searchQuery = ''.obs;
   RxList<Map<dynamic, dynamic>> filteredTasks = RxList<Map<dynamic, dynamic>>();
   RxInt selectedTaskIndex = (-1).obs;
   RxString selectedFilter = 'All'.obs;
+  RxList<Map<dynamic, dynamic>> tasks = RxList<Map<dynamic, dynamic>>();
 
   @override
   void onInit() {
@@ -21,7 +22,7 @@ class HomeController extends GetxController {
     filterTasks();
   }
 
-  void insertNewTask(BuildContext context) async {
+  Future<void> insertNewTask(BuildContext context) async {
     int response = await sqlDb.insertData(
         ''' INSERT INTO Tasks (taskTitle, taskDescription, taskDate, taskTime, taskCategory, taskPrivacy)
        VALUES ('$taskTitle', '$taskDescription', '$taskDate', '$taskTime', 'Home', 0) ''');
@@ -35,6 +36,12 @@ class HomeController extends GetxController {
           duration: Duration(seconds: 2),
         ),
       );
+
+      // Fetch the updated list of tasks
+      List<Map<dynamic, dynamic>> updatedTasks = await readAllTasks();
+
+      // Update the filteredTasks with the updated list
+      filteredTasks.assignAll(updatedTasks);
     } else {
       scaffoldMessenger.showSnackBar(
         const SnackBar(
@@ -45,7 +52,7 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<List<Map>> readAllTasks() async {
+  Future<List<Map<dynamic, dynamic>>> readAllTasks() async {
     List<Map<dynamic, dynamic>> response =
         await sqlDb.readData("SELECT * FROM 'Tasks'");
     return response;
@@ -76,9 +83,8 @@ class HomeController extends GetxController {
     filterTasks();
   }
 
-  void filterTasks() async {
-    final List<Map<dynamic, dynamic>> allTasks =
-        await Get.find<HomeController>().readAllTasks();
+  Future<void> filterTasks() async {
+    final List<Map<dynamic, dynamic>> allTasks = await readAllTasks();
 
     final query = searchQuery.value.toLowerCase();
     final newFilteredTasks = query.isEmpty

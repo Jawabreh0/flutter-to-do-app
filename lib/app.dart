@@ -11,7 +11,6 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: HomeScreen(),
-        //body: CategoriesPage(),
       ),
     );
   }

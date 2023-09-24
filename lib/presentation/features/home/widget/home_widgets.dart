@@ -7,13 +7,13 @@ import 'package:intl/intl.dart';
 import 'package:to_do/presentation/features/modify_task/screen/modify_task_screen.dart';
 
 class HomeWidgets {
-  static FutureBuilder<int> appBarTitle() {
+  static Widget appBarTitle() {
     final HomeController controller = Get.find<HomeController>();
     return FutureBuilder<int>(
       future: controller.readTotalTableRecords(),
       builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return Container();
         } else if (snapshot.hasError) {
           return const Text("Task Null");
         } else {
@@ -403,15 +403,14 @@ class HomeWidgets {
         Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.only(left: 24.0), // Add padding here
+            padding: const EdgeInsets.only(left: 24.0),
             child: Container(
               decoration: BoxDecoration(
                 color: bottomSheetColor,
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0), // Adjust horizontal padding here
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: DropdownButton<String>(
                   value: controller.selectedFilter.value,
                   items:
@@ -437,7 +436,6 @@ class HomeWidgets {
                     Icons.arrow_drop_down,
                     color: Colors.white,
                   ),
-                  // Set the background color of the dropdown list to red
                   dropdownColor: bottomSheetColor,
                 ),
               ),
@@ -457,9 +455,8 @@ class HomeWidgets {
                 bool isCompleted = filteredTasks[i]['taskCompletion'] == 1;
                 Color circleColor =
                     isCompleted ? Colors.blue : bottomSheetColor;
-                Color borderColor = isCompleted
-                    ? Colors.blue
-                    : Colors.white; // Set border color
+                Color borderColor = isCompleted ? Colors.blue : Colors.white;
+
                 return GestureDetector(
                   onTap: () {
                     final taskDetails = filteredTasks[i];
@@ -467,10 +464,13 @@ class HomeWidgets {
                         arguments: taskDetails);
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(top: 14, left: 24, right: 24),
+                    margin: const EdgeInsets.only(
+                        top: 15, left: 24, right: 24), // card ouside distance
                     child: Card(
                       color: bottomSheetColor,
                       child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16.0), // Adjust content padding here
                         leading: GestureDetector(
                           onTap: () {
                             bool newCompletionStatus = !isCompleted;
@@ -480,25 +480,22 @@ class HomeWidgets {
                             );
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 6.0), // Add padding here
+                            padding: const EdgeInsets.only(top: 6.0),
                             child: Container(
-                              width: 16, // Smaller circle size
-                              height: 16, // Smaller circle size
+                              width: 16,
+                              height: 16,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: circleColor,
                                 border: Border.all(
-                                  color:
-                                      borderColor, // Use the calculated borderColor
+                                  color: borderColor,
                                   width: 2.0,
                                 ),
                               ),
                               child: isCompleted
                                   ? const Icon(
                                       Icons.check,
-                                      size:
-                                          12, // Adjust the size of the checkmark icon
+                                      size: 12,
                                       color: Colors.white,
                                     )
                                   : null,
@@ -516,21 +513,17 @@ class HomeWidgets {
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-
-                            SizedBox(
-                                height:
-                                    4.0), // Adjust this value to bring title closer or farther
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                              child: Text(
-                                controller.isToday(filteredTasks[i]['taskDate'])
-                                    ? "Today At ${filteredTasks[i]['taskTime']}"
-                                    : "${filteredTasks[i]['taskDate']} At ${filteredTasks[i]['taskTime']}",
-                                style: TextStyle(
-                                  color: hintFontColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                            const SizedBox(
+                              height: 6.0,
+                            ),
+                            Text(
+                              controller.isToday(filteredTasks[i]['taskDate'])
+                                  ? "Today At ${filteredTasks[i]['taskTime']}"
+                                  : "${filteredTasks[i]['taskDate']} At ${filteredTasks[i]['taskTime']}",
+                              style: TextStyle(
+                                color: hintFontColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
                           ],
