@@ -4,6 +4,9 @@ import 'package:to_do/core/app-colors/palette.dart';
 import 'package:get/get.dart';
 import 'package:to_do/presentation/features/home/screen/home_screen.dart';
 import 'package:to_do/presentation/features/modify_task/controller/modify_task_controller.dart';
+//import 'package:share/share.dart';
+
+import 'package:intl/intl.dart';
 
 class ModifyTaskWidgets {
   static Widget modifyTaskAppBar() {
@@ -53,17 +56,25 @@ class ModifyTaskWidgets {
   }
 
   static Widget modifyTaskkBody() {
-    return SingleChildScrollView(
-        child: Column(
+    return Column(
       children: [
-        taskTitleRow(),
-        const SizedBox(height: 15),
-        taskDescriptionRow(),
-        taskTimeRow(),
-        taskCategoryRow(),
-        modifyTaskButtons(),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                taskTitleRow(),
+                const SizedBox(height: 15),
+                taskDescriptionRow(),
+                taskTimeRow(),
+                taskCategoryRow(),
+                modifyTaskButtons(),
+              ],
+            ),
+          ),
+        ),
+        editTaskButton(),
       ],
-    ));
+    );
   }
 
   static Widget modifyTaskButtons() {
@@ -85,7 +96,45 @@ class ModifyTaskWidgets {
               left: 25,
             ),
             child: ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 25,
+                  ),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      /*
+                      final taskDetails =
+                          Get.arguments; // Retrieve the task details
+
+                      if (taskDetails != null) {
+                        final ModifyTaskController controller =
+                            Get.put(ModifyTaskController(taskDetails));
+
+                        // Create a message to share with task details
+                        final sharedMessage =
+                            "Task Title: ${controller.taskTitle.value}\n"
+                            "Task Description: ${controller.taskDescription.value}\n"
+                            "Task Date: ${controller.taskDate.value}\n"
+                            "Task Time: ${controller.taskTime.value}";
+
+                        // Show the share dialog
+                        Share.share(sharedMessage);
+                      }*/
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                    ),
+                    icon: SvgPicture.asset(
+                      'assets/icons/share.svg',
+                      width: 24,
+                      height: 24,
+                    ),
+                    label: const Text('Share task'),
+                  ),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 elevation: 0,
@@ -121,7 +170,35 @@ class ModifyTaskWidgets {
           Padding(
             padding: const EdgeInsets.only(left: 25),
             child: ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                /* 
+                showDialog(
+  context: context,
+  builder: (BuildContext context) {
+    return AlertDialog(
+      title: Text('Confirm Deletion'),
+      content: Text('Are you sure you want to delete this task?'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          child: Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            deleteTask(taskId); // Call the delete task function
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          child: Text('Delete'),
+        ),
+      ],
+    );
+  },
+);
+
+                 */
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 elevation: 0,
@@ -144,28 +221,40 @@ class ModifyTaskWidgets {
 
   static Widget taskTitleRow() {
     final taskDetails = Get.arguments;
-    final ModifyTaskController controller =
-        Get.put(ModifyTaskController(taskDetails));
-    return Padding(
-      padding: const EdgeInsets.only(top: 30, left: 28, right: 36),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Obx(
-            () => Text(
-              "${controller.taskTitle.value}",
-              style: const TextStyle(
-                fontSize: 20,
-                color: Colors.white,
-                fontWeight: FontWeight.w400,
+    if (taskDetails != null) {
+      final ModifyTaskController controller =
+          Get.put(ModifyTaskController(taskDetails));
+      return Padding(
+        padding: const EdgeInsets.only(top: 30, left: 28, right: 36),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Obx(
+              () => Text(
+                "${controller.taskTitle.value}",
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w400,
+                ),
+                textAlign: TextAlign.left,
               ),
-              textAlign: TextAlign.left,
             ),
+            editIcon(),
+          ],
+        ),
+      );
+    } else {
+      return const Center(
+        child: Text(
+          'Task details are not available',
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.red,
           ),
-          editIcon(),
-        ],
-      ),
-    );
+        ),
+      );
+    }
   }
 
   static Widget editIcon() {
@@ -324,76 +413,141 @@ class ModifyTaskWidgets {
 
   static Widget taskDescriptionRow() {
     final taskDetails = Get.arguments;
-    final ModifyTaskController controller =
-        Get.put(ModifyTaskController(taskDetails));
-    return Padding(
-      padding: const EdgeInsets.only(left: 28, bottom: 35),
-      child: Row(
-        children: [
-          Obx(
-            () => Text(
-              "${controller.taskDescription.value}", // Use controller's taskTitle
-              style: TextStyle(
-                fontSize: 20,
-                color: hintFontColor,
-                fontWeight: FontWeight.w400,
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  static Widget taskTimeRow() {
-    final taskDetails = Get.arguments;
-    final ModifyTaskController controller =
-        Get.put(ModifyTaskController(taskDetails));
-    return Padding(
-      padding: const EdgeInsets.only(left: 24, right: 24, bottom: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              SvgPicture.asset(
-                'assets/icons/timer-icon.svg',
-                width: 24,
-                height: 24,
-              ),
-              const SizedBox(width: 8),
-              const Text(
-                "Task Time :",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(bottomSheetColor),
-            ),
-            child: Obx(
+    if (taskDetails != null) {
+      final ModifyTaskController controller =
+          Get.put(ModifyTaskController(taskDetails));
+      return Padding(
+        padding: const EdgeInsets.only(left: 28, bottom: 35),
+        child: Row(
+          children: [
+            Obx(
               () => Text(
-                "${controller.taskDate.value} At ${controller.taskTime.value}", // Use controller's taskTitle
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.white,
+                "${controller.taskDescription.value}",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: hintFontColor,
                   fontWeight: FontWeight.w400,
                 ),
                 textAlign: TextAlign.left,
               ),
             ),
+          ],
+        ),
+      );
+    } else {
+      return const Center(
+        child: Text(
+          'Task details are not available',
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.red,
           ),
-        ],
-      ),
-    );
+        ),
+      );
+    }
+  }
+
+  static Widget taskTimeRow() {
+    final ModifyTaskController editDateTimeController =
+        Get.find<ModifyTaskController>();
+    final taskDetails = Get.arguments;
+    if (taskDetails != null) {
+      final ModifyTaskController controller =
+          Get.put(ModifyTaskController(taskDetails));
+      return Padding(
+        padding: const EdgeInsets.only(left: 24, right: 24, bottom: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/timer-icon.svg',
+                  width: 24,
+                  height: 24,
+                ),
+                const SizedBox(width: 8),
+                const Text(
+                  "Task Time :",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                // Remove the unnecessary self-invoking function
+                DateTime? selectedDate = await showDatePicker(
+                  context: Get.context!,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime(3000),
+                  builder: (BuildContext context, Widget? child) {
+                    return Theme(
+                      data: ThemeData.dark(),
+                      child: child!,
+                    );
+                  },
+                );
+
+                if (selectedDate != null) {
+                  TimeOfDay? selectedTime = await showTimePicker(
+                    context: Get.context!,
+                    initialTime: TimeOfDay.now(),
+                    builder: (BuildContext context, Widget? child) {
+                      return Theme(
+                        data: ThemeData.dark(),
+                        child: child!,
+                      );
+                    },
+                  );
+
+                  if (selectedTime != null) {
+                    String formattedDate =
+                        DateFormat('yyyy-MM-dd').format(selectedDate);
+                    String formattedTime = selectedTime.format(Get.context!);
+                    editDateTimeController.taskDate.value = formattedDate;
+                    editDateTimeController.taskTime.value = formattedTime;
+                  }
+                }
+
+                final newTime = editDateTimeController.taskTime.value;
+                final newDate = editDateTimeController.taskDate.value;
+                controller.updateTaskDateTime(newTime, newDate);
+              },
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(bottomSheetColor),
+              ),
+              child: Obx(
+                () => Text(
+                  "${controller.taskDate.value} At ${controller.taskTime.value}",
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return const Center(
+        child: Text(
+          'Task details are not available',
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.red,
+          ),
+        ),
+      );
+    }
   }
 
   static Widget taskCategoryRow() {
@@ -429,6 +583,30 @@ class ModifyTaskWidgets {
             child: const Text("University"),
           ),
         ],
+      ),
+    );
+  }
+
+  static Widget editTaskButton() {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        width: double.infinity, // Take the screen width
+        height: 50,
+        margin: const EdgeInsets.only(left: 24, right: 24, bottom: 40),
+        decoration: BoxDecoration(
+          color: appSecondaryColor,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: const Center(
+          child: Text(
+            "Edit Task",
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
     );
   }

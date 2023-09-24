@@ -21,10 +21,10 @@ class ModifyTaskController extends GetxController {
     String? date,
     String? time,
   }) {
-    if (title != null) taskTitle.value = title;
-    if (description != null) taskDescription.value = description;
-    if (date != null) taskDate.value = date;
-    if (time != null) taskTime.value = time;
+    taskTitle.value = title!;
+    taskDescription.value = description!;
+    taskDate.value = date!;
+    taskTime.value = time!;
   }
 
   void saveTask() {
@@ -45,6 +45,41 @@ class ModifyTaskController extends GetxController {
       Get.back();
     } else {
       // Handle the case where the update failed
+    }
+  }
+
+  void updateTaskDateTime(String newTime, String newDate) async {
+    final database = SqlDb();
+
+    final updateQuery = '''
+    UPDATE Tasks
+    SET taskDate = '$newDate', taskTime = '$newTime'
+    WHERE id = ${taskId.value}; 
+  ''';
+    final updatedRows = await database.updateData(updateQuery);
+
+    if (updatedRows > 0) {
+      Get.back();
+    } else {
+      // Handle the case where the update failed
+    }
+  }
+
+  void deleteTask(int taskId) async {
+    final database = SqlDb();
+
+    final deleteQuery = '''
+    DELETE FROM Tasks
+    WHERE id = $taskId;
+  ''';
+
+    final deletedRows = await database.deleteData(deleteQuery);
+
+    if (deletedRows > 0) {
+      // Task deleted successfully
+      // You can also update your UI to reflect the deletion
+    } else {
+      // Handle the case where the deletion failed
     }
   }
 }
