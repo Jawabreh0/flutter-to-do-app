@@ -455,7 +455,8 @@ class HomeWidgets {
                 return GestureDetector(
                   onTap: () {
                     final taskDetails = filteredTasks[i];
-                    Get.to(const ModifyTaskScreen(), arguments: taskDetails);
+                    Get.offAll(const ModifyTaskScreen(),
+                        arguments: taskDetails);
                   },
                   child: Container(
                     margin: const EdgeInsets.only(top: 14, left: 24, right: 24),

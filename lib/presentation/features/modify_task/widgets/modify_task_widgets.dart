@@ -2,17 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:to_do/core/app-colors/palette.dart';
 import 'package:get/get.dart';
+import 'package:to_do/presentation/features/home/screen/home_screen.dart';
 import 'package:to_do/presentation/features/modify_task/controller/modify_task_controller.dart';
 
 class ModifyTaskWidgets {
   static Widget modifyTaskAppBar() {
-    return AppBar(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      automaticallyImplyLeading: true, // Set this to true or false as needed
-      actions: [
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
         Container(
-          margin: const EdgeInsets.only(bottom: 25, top: 0),
+          width: 35,
+          height: 35,
+          decoration: BoxDecoration(
+            color: modifyTaskColor,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: IconButton(
+            padding: EdgeInsets.zero, // Remove the IconButton's padding
+            onPressed: () {
+              Get.offAll(HomeScreen());
+            },
+            icon: SvgPicture.asset(
+              'assets/icons/cancel-icon.svg',
+              width: 24, // Decrease the width and height
+              height: 24,
+            ),
+          ),
+        ),
+        Container(
+          width: 120, // Adjust the width
+          height: 35, // Adjust the height
           decoration: BoxDecoration(
             color: modifyTaskColor,
             borderRadius: BorderRadius.circular(4),
@@ -150,6 +169,11 @@ class ModifyTaskWidgets {
   }
 
   static Widget editIcon() {
+    final taskDetails = Get.arguments;
+    final ModifyTaskController controller =
+        Get.put(ModifyTaskController(taskDetails));
+    final ModifyTaskController editTaskController =
+        Get.find<ModifyTaskController>();
     return IconButton(
       icon: SvgPicture.asset(
         'assets/icons/edit.svg',
@@ -189,7 +213,7 @@ class ModifyTaskWidgets {
                       padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                       child: TextField(
                         onChanged: (value) {
-                          // TODO
+                          editTaskController.taskTitle.value = value;
                         },
                         style: const TextStyle(
                           fontSize: 18,
@@ -198,7 +222,7 @@ class ModifyTaskWidgets {
                         ),
                         textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
-                          hintText: 'Task Title',
+                          hintText: "${controller.taskTitle.value}",
                           hintStyle: TextStyle(
                             color: hintFontColor,
                           ),
@@ -222,7 +246,7 @@ class ModifyTaskWidgets {
                       padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                       child: TextField(
                         onChanged: (value) {
-                          // TODO
+                          editTaskController.taskDescription.value = value;
                         },
                         style: const TextStyle(
                           fontSize: 18,
@@ -231,7 +255,7 @@ class ModifyTaskWidgets {
                         ),
                         textAlignVertical: TextAlignVertical.center,
                         decoration: InputDecoration(
-                          hintText: 'Description',
+                          hintText: "${controller.taskDescription.value}",
                           hintStyle: TextStyle(
                             color: hintFontColor,
                           ),
@@ -268,7 +292,12 @@ class ModifyTaskWidgets {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
-                              // TODO: Handle Choose button
+                              final newTitle =
+                                  editTaskController.taskTitle.value;
+                              final newDescription =
+                                  editTaskController.taskDescription.value;
+                              controller.updateTaskInDatabase(
+                                  newTitle, newDescription);
                               Navigator.of(context).pop();
                             },
                             style: ElevatedButton.styleFrom(
