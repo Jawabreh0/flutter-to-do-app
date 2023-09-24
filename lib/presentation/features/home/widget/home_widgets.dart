@@ -173,11 +173,8 @@ class HomeWidgets {
               color: fieldBordersColor,
             ),
           ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: fieldBordersColor,
-            ),
-          ),
+          enabledBorder:
+              InputBorder.none, // Remove the horizontal line when not focused
           contentPadding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
         ),
         autofocus: true,
@@ -205,10 +202,16 @@ class HomeWidgets {
           hintStyle: TextStyle(
             color: hintFontColor,
           ),
-          focusedBorder: InputBorder.none,
-          enabledBorder: InputBorder.none,
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: fieldBordersColor,
+            ),
+          ),
+          enabledBorder:
+              InputBorder.none, // Remove the horizontal line when not focused
           contentPadding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
         ),
+        autofocus: true,
       ),
     );
   }
@@ -452,6 +455,11 @@ class HomeWidgets {
               shrinkWrap: true,
               itemBuilder: (context, i) {
                 bool isCompleted = filteredTasks[i]['taskCompletion'] == 1;
+                Color circleColor =
+                    isCompleted ? Colors.blue : bottomSheetColor;
+                Color borderColor = isCompleted
+                    ? Colors.blue
+                    : Colors.white; // Set border color
                 return GestureDetector(
                   onTap: () {
                     final taskDetails = filteredTasks[i];
@@ -471,43 +479,61 @@ class HomeWidgets {
                               newCompletionStatus,
                             );
                           },
-                          child: Container(
-                            width: 24,
-                            height: 24,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: isCompleted ? Colors.blue : Colors.white,
-                              border: Border.all(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 6.0), // Add padding here
+                            child: Container(
+                              width: 16, // Smaller circle size
+                              height: 16, // Smaller circle size
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: circleColor,
+                                border: Border.all(
+                                  color:
+                                      borderColor, // Use the calculated borderColor
+                                  width: 2.0,
+                                ),
+                              ),
+                              child: isCompleted
+                                  ? const Icon(
+                                      Icons.check,
+                                      size:
+                                          12, // Adjust the size of the checkmark icon
+                                      color: Colors.white,
+                                    )
+                                  : null,
+                            ),
+                          ),
+                        ),
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${filteredTasks[i]['taskTitle']}",
+                              style: const TextStyle(
                                 color: Colors.white,
-                                width: 2.0,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
-                            child: isCompleted
-                                ? const Icon(
-                                    Icons.check,
-                                    size: 16,
-                                    color: Colors.white,
-                                  )
-                                : null,
-                          ),
-                        ),
-                        title: Text(
-                          "${filteredTasks[i]['taskTitle']}",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        subtitle: Text(
-                          controller.isToday(filteredTasks[i]['taskDate'])
-                              ? "Today At ${filteredTasks[i]['taskTime']}"
-                              : "${filteredTasks[i]['taskDate']} At ${filteredTasks[i]['taskTime']}",
-                          style: TextStyle(
-                            color: hintFontColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
+
+                            SizedBox(
+                                height:
+                                    4.0), // Adjust this value to bring title closer or farther
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              child: Text(
+                                controller.isToday(filteredTasks[i]['taskDate'])
+                                    ? "Today At ${filteredTasks[i]['taskTime']}"
+                                    : "${filteredTasks[i]['taskDate']} At ${filteredTasks[i]['taskTime']}",
+                                style: TextStyle(
+                                  color: hintFontColor,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

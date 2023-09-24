@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:to_do/data/sqldb.dart';
 
 class ModifyTaskController extends GetxController {
@@ -81,5 +82,15 @@ class ModifyTaskController extends GetxController {
     } else {
       // Handle the case where the deletion failed
     }
+  }
+
+  void shareData() {
+    final text = 'Title: ${taskTitle.value}\n'
+        'Description: ${taskDescription.value}\n'
+        'Date: ${taskDate.value}\n'
+        'Time: ${taskTime.value}';
+    final subject = 'Task Details';
+
+    Share.share(text, subject: subject);
   }
 }

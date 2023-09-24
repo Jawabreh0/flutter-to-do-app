@@ -302,36 +302,4 @@ class CreateCatgWidget {
       ),
     );
   }
-/*
-  static Widget catgs() {
-    return FutureBuilder<List<CategoryModel>>(
-      future: CatgController()
-          .fetchCategories(), // Create a new instance of CatgController
-      builder:
-          (BuildContext context, AsyncSnapshot<List<CategoryModel>> snapshot) {
-        if (snapshot.hasData) {
-          final categories = snapshot.data!;
-          // Build your UI using the retrieved category data
-          return ListView.builder(
-            itemCount: categories.length,
-            itemBuilder: (context, index) {
-              final category = categories[index];
-              // Use category.catgName, category.catgIcon, category.catgColor to display each category.
-              // You can create widgets to display the data as needed.
-              return ListTile(
-                leading: Icon(category.catgIcon, color: category.catgColor),
-                title: Text(category.catgName),
-                // Add more widgets for additional information if needed.
-              );
-            },
-          );
-        } else if (snapshot.hasError) {
-          return Text("Error: ${snapshot.error}");
-        } else {
-          return CircularProgressIndicator(); // Loading indicator while data is being fetched.
-        }
-      },
-    );
-  }
-}*/
 }

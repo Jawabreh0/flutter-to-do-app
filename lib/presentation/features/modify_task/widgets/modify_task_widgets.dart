@@ -78,6 +78,8 @@ class ModifyTaskWidgets {
   }
 
   static Widget modifyTaskButtons() {
+    final ModifyTaskController controller = Get.find<ModifyTaskController>();
+
     return Align(
       alignment: Alignment.centerLeft,
       child: Column(
@@ -92,48 +94,10 @@ class ModifyTaskWidgets {
           ),
           const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.only(
-              left: 25,
-            ),
+            padding: const EdgeInsets.only(left: 25),
             child: ElevatedButton.icon(
               onPressed: () {
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 25,
-                  ),
-                  child: ElevatedButton.icon(
-                    onPressed: () {
-                      /*
-                      final taskDetails =
-                          Get.arguments; // Retrieve the task details
-
-                      if (taskDetails != null) {
-                        final ModifyTaskController controller =
-                            Get.put(ModifyTaskController(taskDetails));
-
-                        // Create a message to share with task details
-                        final sharedMessage =
-                            "Task Title: ${controller.taskTitle.value}\n"
-                            "Task Description: ${controller.taskDescription.value}\n"
-                            "Task Date: ${controller.taskDate.value}\n"
-                            "Task Time: ${controller.taskTime.value}";
-
-                        // Show the share dialog
-                        Share.share(sharedMessage);
-                      }*/
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                    ),
-                    icon: SvgPicture.asset(
-                      'assets/icons/share.svg',
-                      width: 24,
-                      height: 24,
-                    ),
-                    label: const Text('Share task'),
-                  ),
-                );
+                controller.shareData();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
@@ -171,33 +135,8 @@ class ModifyTaskWidgets {
             padding: const EdgeInsets.only(left: 25),
             child: ElevatedButton.icon(
               onPressed: () {
-                /* 
-                showDialog(
-  context: context,
-  builder: (BuildContext context) {
-    return AlertDialog(
-      title: Text('Confirm Deletion'),
-      content: Text('Are you sure you want to delete this task?'),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop(); // Close the dialog
-          },
-          child: Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: () {
-            deleteTask(taskId); // Call the delete task function
-            Navigator.of(context).pop(); // Close the dialog
-          },
-          child: Text('Delete'),
-        ),
-      ],
-    );
-  },
-);
-
-                 */
+                // Call the deleteTask method when the button is pressed
+                controller.deleteTask(controller.taskId.value);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
