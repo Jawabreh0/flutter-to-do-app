@@ -43,133 +43,203 @@ class ModifyTaskWidgets {
     final taskDetails = Get.arguments;
     final ModifyTaskController controller =
         Get.put(ModifyTaskController(taskDetails));
-    return Container(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 30, left: 28, right: 36),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Obx(
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 30, left: 28, right: 36),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Obx(
+                () => Text(
+                  "${controller.taskTitle.value}", // Use controller's taskTitle
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              IconButton(
+                icon: SvgPicture.asset(
+                  'assets/icons/edit.svg',
+                  width: 48,
+                  height: 48,
+                ),
+                onPressed: () {
+                  // Show the dialog when the icon button is pressed
+                  showDialog(
+                    context: Get.context!,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: bottomSheetColor,
+                        title: Column(
+                          children: [
+                            const Center(
+                              child: Text(
+                                'Choose Category',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            Divider(
+                              color: fieldBordersColor,
+                              thickness: 1,
+                            ),
+                          ],
+                        ),
+                        content: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  // TODO: Handle Cancel button
+                                  Navigator.of(context).pop();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: bottomSheetColor,
+                                  elevation: 0,
+                                  padding: EdgeInsets.zero,
+                                ),
+                                child: Text(
+                                  'Cancel',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: appSecondaryColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  // TODO: Handle Choose button
+                                  Navigator.of(context).pop();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: appSecondaryColor,
+                                  padding: EdgeInsets.zero,
+                                ),
+                                child: const Text(
+                                  'Choose',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+              )
+            ],
+          ),
+        ),
+        const SizedBox(height: 15),
+        Padding(
+          padding: const EdgeInsets.only(left: 28, bottom: 35),
+          child: Row(
+            children: [
+              Obx(
+                () => Text(
+                  "${controller.taskDescription.value}", // Use controller's taskTitle
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: hintFontColor,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 24, right: 24, bottom: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    'assets/icons/timer-icon.svg',
+                    width: 24,
+                    height: 24,
+                  ),
+                  const SizedBox(width: 8),
+                  const Text(
+                    "Task Time :",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(bottomSheetColor),
+                ),
+                child: Obx(
                   () => Text(
-                    "${controller.taskTitle.value}", // Use controller's taskTitle
+                    "${controller.taskDate.value} At ${controller.taskTime.value}", // Use controller's taskTitle
                     style: const TextStyle(
-                      fontSize: 20,
+                      fontSize: 12,
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
                     ),
                     textAlign: TextAlign.left,
                   ),
                 ),
-                SvgPicture.asset(
-                  'assets/icons/edit.svg',
-                  width: 48,
-                  height: 48,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-          const SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.only(left: 28, bottom: 35),
-            child: Row(
-              children: [
-                Obx(
-                  () => Text(
-                    "${controller.taskDescription.value}", // Use controller's taskTitle
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 24, right: 24, bottom: 25),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    'assets/icons/tag-icon.svg',
+                    width: 24,
+                    height: 24,
+                  ),
+                  const SizedBox(width: 8),
+                  const Text(
+                    "Task Category :",
                     style: TextStyle(
-                      fontSize: 20,
-                      color: hintFontColor,
+                      fontSize: 16,
+                      color: Colors.white,
                       fontWeight: FontWeight.w400,
                     ),
-                    textAlign: TextAlign.left,
                   ),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(bottomSheetColor),
                 ),
-              ],
-            ),
+                child: const Text("University"),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 24, right: 24, bottom: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/timer-icon.svg',
-                      width: 24,
-                      height: 24,
-                    ),
-                    const SizedBox(width: 8),
-                    const Text(
-                      "Task Time :",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(bottomSheetColor),
-                  ),
-                  child: Obx(
-                    () => Text(
-                      "${controller.taskDate.value} At ${controller.taskTime.value}", // Use controller's taskTitle
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 24, right: 24, bottom: 25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/tag-icon.svg',
-                      width: 24,
-                      height: 24,
-                    ),
-                    const SizedBox(width: 8),
-                    const Text(
-                      "Task Category :",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(bottomSheetColor),
-                  ),
-                  child: const Text("University"),
-                ),
-              ],
-            ),
-          ),
-          modifyTaskButtons(),
-        ],
-      ),
+        ),
+        modifyTaskButtons(),
+      ],
     );
   }
 
