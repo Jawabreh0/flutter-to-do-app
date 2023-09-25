@@ -44,19 +44,14 @@ class SqlDb {
 
   ''');
 
-    // Creating the 'Categories' table
     await db.execute('''
-    CREATE TABLE Categories (
-      catgID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      catgName TEXT NOT NULL,
-      catgIcon TEXT NOT NULL,
-      catgColor TEXT NOT NULL,
-      materialIconCodePoint INTEGER,  
-      materialIconFontFamily TEXT,
-      materialIconFontPackage TEXT,
-      materialIconDirection BOOLEAN
-    );
-  ''');
+CREATE TABLE Categories (
+  catgID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  catgName TEXT NOT NULL,
+  catgIcon INTEGER NOT NULL,
+  catgColor TEXT NOT NULL
+);
+''');
 
     print("[INFO] ... Tables Created ... ");
   }

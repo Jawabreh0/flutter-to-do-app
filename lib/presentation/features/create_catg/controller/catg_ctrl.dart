@@ -4,15 +4,18 @@ import 'package:to_do/data/sqldb.dart';
 
 class CatgController extends GetxController {
   SqlDb sqlDb = SqlDb();
-
   Rx<Color> selectedColor = Colors.red.obs;
   Rx<IconData?> selectedIcon = Rx<IconData?>(null);
   RxString catgName = "".obs;
-
   int? materialIconCodePoint;
-  String? materialIconFontFamily;
-  String? materialIconFontPackage;
-  bool? materialIconDirection;
+  RxList<CategoryModel> categories = <CategoryModel>[].obs;
+
+  void fetchCategories() async {
+    final List<Map> categoryList =
+        await sqlDb.readData('SELECT * FROM Categories');
+    categories.value =
+        categoryList.map((map) => CategoryModel.fromMap(map)).toList();
+  }
 
   void printFun() {
     print(
@@ -23,52 +26,22 @@ class CatgController extends GetxController {
     if (selectedIcon.value is IconData) {
       final icon = selectedIcon.value as IconData;
       materialIconCodePoint = icon.codePoint;
-      materialIconFontFamily = icon.fontFamily;
-      materialIconFontPackage = icon.fontPackage;
-      materialIconDirection = icon.matchTextDirection;
-    }
 
-    String iconCodePoint = selectedIcon.value!.codePoint.toString();
-    String colorValue = selectedColor.value.value.toRadixString(16);
-    int response = await sqlDb.insertData('''
-    INSERT INTO Categories (catgName, catgIcon, catgColor, materialIconCodePoint, materialIconFontFamily, materialIconFontPackage, materialIconDirection)
-    VALUES ('$catgName', '$iconCodePoint', '$colorValue', '$materialIconCodePoint', '$materialIconFontFamily', '$materialIconFontPackage', '$materialIconDirection')
-  ''');
-    if (response > 0) {
-      print("Done");
-    } else {
-      print("ERROR");
+      String iconCodePoint =
+          materialIconCodePoint.toString(); // Use materialIconCodePoint
+      String colorValue = selectedColor.value.value.toRadixString(16);
+      int response = await sqlDb.insertData('''
+        INSERT INTO Categories (catgName, catgIcon, catgColor)
+        VALUES ('$catgName', '$iconCodePoint', '$colorValue')
+      ''');
+      if (response > 0) {
+        print("Done");
+      } else {
+        print("ERROR");
+      }
     }
   }
 //
-
-  Future<List<CategoryModel>> fetchCategories() async {
-    final List<Map<String, dynamic>> categoriesData =
-        await sqlDb.readData("SELECT * FROM 'Categories'");
-    return categoriesData.map((data) {
-      final catgIconCodePoint = int.parse(data['catgIcon']);
-      final catgColor = Color(int.parse('0x${data['catgColor']}'));
-
-      IconData catgIcon;
-
-      if (data['materialIconCodePoint'] != null) {
-        catgIcon = IconData(
-          catgIconCodePoint,
-          fontFamily: data['materialIconFontFamily'],
-          fontPackage: data['materialIconFontPackage'],
-          matchTextDirection: data['materialIconDirection'] == 1,
-        );
-      } else {
-        catgIcon = Icons.error;
-      }
-
-      return CategoryModel(
-        catgName: data['catgName'],
-        catgIcon: catgIcon,
-        catgColor: catgColor,
-      );
-    }).toList();
-  }
 
   Future<List<Map>> readAllCatgs() async {
     List<Map<dynamic, dynamic>> response =
@@ -112,13 +85,50 @@ class CatgController extends GetxController {
 }
 
 class CategoryModel {
+  final int id;
   final String catgName;
   final IconData catgIcon;
   final Color catgColor;
 
   CategoryModel({
+    required this.id,
     required this.catgName,
     required this.catgIcon,
     required this.catgColor,
   });
+
+  factory CategoryModel.fromMap(Map<dynamic, dynamic> map) {
+    // Convert the map keys to strings
+    final mapAsString =
+        map.map((key, value) => MapEntry(key.toString(), value));
+
+    final id = mapAsString['catgID'] as int?; // Use 'catgID' for the id
+    final catgName = mapAsString['catgName'] as String?;
+    final catgIconCodePoint = mapAsString['catgIcon'] as int?;
+    final catgColorHex = mapAsString['catgColor'] as String?;
+
+    if (id == null ||
+        catgName == null ||
+        catgIconCodePoint == null ||
+        catgColorHex == null) {
+      // Handle the case where one or more required values are missing
+      // You can choose to return a default CategoryModel or throw an error
+      return CategoryModel(
+        id: 0,
+        catgName: 'Default Name',
+        catgIcon: Icons.error, // You can choose a default icon
+        catgColor: Colors.red, // You can choose a default color
+      );
+    }
+
+    return CategoryModel(
+      id: id,
+      catgName: catgName,
+      catgIcon: IconData(
+        catgIconCodePoint,
+        fontFamily: 'MaterialIcons',
+      ),
+      catgColor: Color(int.parse(catgColorHex, radix: 16)),
+    );
+  }
 }

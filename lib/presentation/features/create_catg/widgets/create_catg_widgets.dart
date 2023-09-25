@@ -91,7 +91,6 @@ class CreateCatgWidget {
 
   static Widget chooseCatgButton() {
     final CatgController controller = Get.put(CatgController());
-
     return Padding(
       padding: const EdgeInsets.only(left: 24, bottom: 20),
       child: IntrinsicWidth(
@@ -284,8 +283,14 @@ class CreateCatgWidget {
           Expanded(
             child: ElevatedButton(
               onPressed: () {
-                controller.printFun();
-                controller.insertNewCatg();
+                // Check if the category name is not empty before inserting
+                if (controller.catgName.isNotEmpty) {
+                  controller.printFun();
+                  controller.insertNewCatg();
+                } else {
+                  // Handle case where category name is empty
+                  print("Category name cannot be empty.");
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: appSecondaryColor,
