@@ -1,0 +1,19 @@
+==============================     Login       ==============================
+- clean the print statement in the getAvailableBiometrics()
++ dir is clean in terms of architecture/design/login
+
+Database
+ 
+
+==============================      Home      ==============================
++ Code Structure 
++ Code Design 
+  - Instead of showing the empty screen while fetching the data, show progess indicator 
+  - Calender icon button is not working 
+  - Show task category in the card
+  - Get the title closer to the check box  
+
++ Code Logic
+  - refresh the empty page to show the screen with records when you create new task
+  - fields validation 
+

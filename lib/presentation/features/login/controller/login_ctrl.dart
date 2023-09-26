@@ -1,4 +1,6 @@
-// Clean except the print in the getAvailableBiometrics
+// login_ctrl.dart
+
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:to_do/presentation/features/home/screen/home_screen.dart';
@@ -20,31 +22,37 @@ class LoginController extends GetxController {
       supportState = isSupported;
       update();
     } catch (e) {
-      print(e);
+      e.printError();
     }
   }
 
   Future<void> authentication() async {
-    bool authenticated = await auth.authenticate(
-      localizedReason: "Verify identity to access you're To Do App",
-      options: const AuthenticationOptions(
-        stickyAuth: true,
-        biometricOnly: true,
-      ),
-    );
-
-    if (authenticated) {
-      Get.offAll(HomeScreen());
+    try {
+      bool authenticated = await auth.authenticate(
+        localizedReason: "Verify identity to access your To-Do App",
+        options: const AuthenticationOptions(
+          stickyAuth: true,
+          biometricOnly: true,
+        ),
+      );
+      if (authenticated) {
+        Get.offAll(() => HomeScreen());
+      }
+    } on PlatformException catch (e) {
+      e.printError();
     }
   }
 
   Future<void> getAvailableBiometrics() async {
-    await auth.getAvailableBiometrics();
-    bool supportState = await auth.isDeviceSupported();
-    if (supportState) {
-      print('supported');
-    } else {
-      print('not supported');
+    try {
+      await auth.getAvailableBiometrics();
+      bool supportState = await auth.isDeviceSupported();
+      if (supportState) {
+      } else {
+        supportState.printInfo();
+      }
+    } catch (e) {
+      e.printError();
     }
   }
 }

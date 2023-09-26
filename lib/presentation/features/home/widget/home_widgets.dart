@@ -51,14 +51,23 @@ class HomeWidgets {
     );
   }
 
-  static Widget emptyHomeBody() {
-    return Column(
-      children: [
-        homeImage(),
-        homeMainText(),
-        homeSecText(),
-      ],
-    );
+  static Widget emptyHomeBody(BuildContext context) {
+    final HomeController controller = Get.find<HomeController>();
+
+    if (controller.recordCount.value == 0) {
+      return Column(
+        children: [
+          homeImage(),
+          homeMainText(),
+          homeSecText(),
+        ],
+      );
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        controller.update(); // Trigger a refresh
+      });
+      return HomeWidgets.homeBodyWithRecords();
+    }
   }
 
   static Widget homeImage() {
