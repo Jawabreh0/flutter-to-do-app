@@ -9,46 +9,38 @@ import 'package:to_do/presentation/features/modify_task/screen/modify_task_scree
 class HomeWidgets {
   static Widget appBarTitle() {
     final HomeController controller = Get.find<HomeController>();
-    return FutureBuilder<int>(
-      future: controller.readTotalTableRecords(),
-      builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container();
-        } else if (snapshot.hasError) {
-          return const Text("Task Null");
-        } else {
-          return Row(
-            children: [
-              Text(
-                'Task ${snapshot.data}',
-                style: const TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: -0.5,
-                  color: Colors.white,
-                ),
-              ),
-              const Spacer(),
-              const Text(
-                'Home',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: -0.5,
-                  color: Colors.white,
-                ),
-              ),
-              const Spacer(),
-              SvgPicture.asset(
-                'assets/icons/calendar.svg',
-                width: 24.0,
-                height: 24.0,
-              ),
-            ],
-          );
-        }
-      },
-    );
+    return Obx(() {
+      final count = controller.taskCount.value;
+      return Row(
+        children: [
+          Text(
+            'Task $count',
+            style: const TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.w400,
+              letterSpacing: -0.5,
+              color: Colors.white,
+            ),
+          ),
+          const Spacer(),
+          const Text(
+            'Home',
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.w400,
+              letterSpacing: -0.5,
+              color: Colors.white,
+            ),
+          ),
+          const Spacer(),
+          SvgPicture.asset(
+            'assets/icons/calendar.svg',
+            width: 24.0,
+            height: 24.0,
+          ),
+        ],
+      );
+    });
   }
 
   static Widget emptyHomeBody(BuildContext context) {

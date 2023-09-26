@@ -15,11 +15,13 @@ class HomeController extends GetxController {
   RxInt selectedTaskIndex = (-1).obs;
   RxString selectedFilter = 'All'.obs;
   RxList<Map<dynamic, dynamic>> tasks = RxList<Map<dynamic, dynamic>>();
+  RxInt taskCount = 0.obs;
 
   @override
   void onInit() {
     super.onInit();
     filterTasks();
+    updateTaskCount(); // Update the task count on initialization
   }
 
   Future<void> insertNewTask(BuildContext context) async {
@@ -42,6 +44,9 @@ class HomeController extends GetxController {
 
       // Update the filteredTasks with the updated list
       filteredTasks.assignAll(updatedTasks);
+
+      // Update the task count
+      updateTaskCount();
     } else {
       scaffoldMessenger.showSnackBar(
         const SnackBar(
@@ -50,6 +55,11 @@ class HomeController extends GetxController {
         ),
       );
     }
+  }
+
+  Future<void> updateTaskCount() async {
+    final count = await readTotalTableRecords();
+    taskCount.value = count;
   }
 
   Future<List<Map<dynamic, dynamic>>> readAllTasks() async {
