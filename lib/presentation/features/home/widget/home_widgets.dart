@@ -63,9 +63,11 @@ class HomeWidgets {
   }
 
   static Widget homeImage() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 90, bottom: 30),
-      child: Image.asset('assets/imgs/empty-home.png'),
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 90, bottom: 30),
+        child: Image.asset('assets/imgs/empty-home.png'),
+      ),
     );
   }
 

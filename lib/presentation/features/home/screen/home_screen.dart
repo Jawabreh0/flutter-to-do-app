@@ -1,4 +1,3 @@
-// empty_home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_do/core/app-colors/palette.dart';
@@ -12,6 +11,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeController controller = Get.put(HomeController());
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -20,22 +20,25 @@ class HomeScreen extends StatelessWidget {
         title: HomeWidgets.appBarTitle(),
       ),
       backgroundColor: appColor,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Obx(() {
-                final filteredTasks = controller.filteredTasks;
-                if (filteredTasks.isEmpty) {
-                  return HomeWidgets.emptyHomeBody(context);
-                } else {
-                  return HomeWidgets.homeBodyWithRecords();
-                }
-              }),
-            ],
-          ),
-        ),
+      body: FutureBuilder(
+        future: controller.readTotalTableRecords(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Display a progress indicator while fetching data.
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            // Handle any errors that occur during data fetching.
+            return Center(child: Text("Error: ${snapshot.error}"));
+          } else {
+            // Data fetching is complete, check if there are records.
+            final recordCount = snapshot.data as int;
+            if (recordCount == 0) {
+              return HomeWidgets.emptyHomeBody(context);
+            } else {
+              return HomeWidgets.homeBodyWithRecords();
+            }
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: appSecondaryColor,
