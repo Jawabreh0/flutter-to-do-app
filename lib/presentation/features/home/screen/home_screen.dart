@@ -20,25 +20,22 @@ class HomeScreen extends StatelessWidget {
         title: HomeWidgets.appBarTitle(),
       ),
       backgroundColor: appColor,
-      body: FutureBuilder(
-        future: controller.readTotalTableRecords(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // Display a progress indicator while fetching data.
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            // Handle any errors that occur during data fetching.
-            return Center(child: Text("Error: ${snapshot.error}"));
-          } else {
-            // Data fetching is complete, check if there are records.
-            final recordCount = snapshot.data as int;
-            if (recordCount == 0) {
-              return HomeWidgets.emptyHomeBody(context);
-            } else {
-              return HomeWidgets.homeBodyWithRecords();
-            }
-          }
-        },
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Obx(() {
+                final filteredTasks = controller.filteredTasks;
+                if (filteredTasks.isEmpty) {
+                  return HomeWidgets.emptyHomeBody(context);
+                } else {
+                  return HomeWidgets.homeBodyWithRecords();
+                }
+              }),
+            ],
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: appSecondaryColor,

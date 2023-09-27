@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:to_do/presentation/features/create_catg/controller/catg_ctrl.dart'; // Import your controller class
 
 class CategoryListWidget extends StatefulWidget {
-  const CategoryListWidget({Key? key});
+  const CategoryListWidget({super.key});
 
   @override
   CategoryListWidgetState createState() => CategoryListWidgetState();
@@ -34,30 +34,16 @@ class CategoryListWidgetState extends State<CategoryListWidget> {
               child: Text('No categories found.'),
             );
           } else {
-            return GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, // Number of icons per row
-              ),
+            return ListView.builder(
               itemCount: categories.length,
               itemBuilder: (context, index) {
                 final category = categories[index];
-                return GridTile(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding:
-                              const EdgeInsets.all(8.0), // Add padding here
-                          child: Icon(
-                            category.catgIcon,
-                            color: category.catgColor,
-                          ),
-                        ),
-                        Text(category.catgName),
-                      ],
-                    ),
+                return ListTile(
+                  leading: Icon(
+                    category.catgIcon,
+                    color: category.catgColor,
                   ),
+                  title: Text(category.catgName),
                 );
               },
             );

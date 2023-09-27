@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:to_do/presentation/features/create_catg/widgets/showcatgs.dart';
+import 'package:to_do/presentation/features/login/screen/login_screen.dart';
 
 void main() {
   runApp(
@@ -9,8 +9,8 @@ void main() {
       theme: ThemeData(
         fontFamily: 'Lato', // Set the font family to 'Lato'
       ),
-      home: const Scaffold(
-        body: CategoryListWidget(),
+      home: Scaffold(
+        body: LoginScreen(),
       ),
     ),
   );
