@@ -1,10 +1,10 @@
 // Clean
 
 import 'package:flutter/material.dart';
-import '../widget/login_widgets.dart';
+import 'package:todo/core/constants/palette.dart';
+import 'package:todo/presentation/features/login/widgets/login_widget.dart';
 import '../controller/login_ctrl.dart';
 import 'package:get/get.dart';
-import 'package:to_do/core/app-colors/palette.dart';
 
 class LoginScreen extends StatelessWidget {
   final LoginController controller = Get.put(LoginController());

@@ -1,4 +1,4 @@
-name: to_do
+name: todo
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -30,14 +30,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   get: ^4.6.6
-  flutter_svg: ^2.0.7
-  local_auth: ^2.1.7
-  sqflite: ^2.3.0
-  google_fonts: ^6.0.0
-  share: ^2.0.4
   share_plus: ^7.1.0
+  sqflite: ^2.3.0
+  local_auth: ^2.1.7
+  flutter_svg: ^2.0.7
 
 dev_dependencies:
   flutter_test:
@@ -65,7 +67,6 @@ flutter:
   assets:
     - assets/imgs/
     - assets/icons/
-  #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

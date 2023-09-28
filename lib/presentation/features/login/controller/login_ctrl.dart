@@ -3,9 +3,11 @@
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:to_do/presentation/features/home/screen/home_screen.dart';
+import 'package:todo/core/constants/lang_keys.dart';
+import 'package:todo/core/presentation/mixins/snackbar_mixin.dart';
+import 'package:todo/presentation/features/home/screen/home_screen.dart';
 
-class LoginController extends GetxController {
+class LoginController extends GetxController with SnackbarMixin {
   final LocalAuthentication auth = LocalAuthentication();
 
   bool supportState = false;
@@ -13,10 +15,10 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _checkBiometrics();
+    _checkBiometricSupport();
   }
 
-  Future<void> _checkBiometrics() async {
+  Future<void> _checkBiometricSupport() async {
     try {
       bool isSupported = await auth.isDeviceSupported();
       supportState = isSupported;
@@ -29,17 +31,21 @@ class LoginController extends GetxController {
   Future<void> authentication() async {
     try {
       bool authenticated = await auth.authenticate(
-        localizedReason: "Verify identity to access your To-Do App",
+        localizedReason: LangKeys.VERIFY_IDENTITY_TO_ACCESS,
         options: const AuthenticationOptions(
           stickyAuth: true,
           biometricOnly: true,
         ),
       );
+
       if (authenticated) {
-        Get.offAll(() => HomeScreen());
+        showSnackbar(LangKeys.SUCCESS, LangKeys.AUTHENTICATED_USER);
+        Get.offAll(() => const HomeScreen());
+      } else {
+        showSnackbar(LangKeys.AUTH_FAILED, LangKeys.AUTHENTICATED_USER);
       }
     } on PlatformException catch (e) {
-      e.printError();
+      showSnackbar(LangKeys.PLATFORM_EXCEPTION, "$e");
     }
   }
 
@@ -48,11 +54,13 @@ class LoginController extends GetxController {
       await auth.getAvailableBiometrics();
       bool supportState = await auth.isDeviceSupported();
       if (supportState) {
+        showSnackbar(LangKeys.INFO, LangKeys.SUPPORTED_DEVICE);
       } else {
-        supportState.printInfo();
+        showSnackbar(
+            LangKeys.INFO, LangKeys.BIOMETRIC_SUPPORT_IS_NOT_AVAILABLE);
       }
     } catch (e) {
-      e.printError();
+      showSnackbar(LangKeys.ERROR, "$e");
     }
   }
 }

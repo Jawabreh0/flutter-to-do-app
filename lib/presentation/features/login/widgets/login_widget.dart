@@ -1,18 +1,21 @@
 // Clean
 
 import 'package:flutter/material.dart';
-import 'package:to_do/core/app-colors/palette.dart';
+import 'package:todo/core/constants/lang_keys.dart';
+import 'package:todo/core/constants/palette.dart';
+import 'package:todo/core/constants/assset_keys.dart';
+import 'package:todo/core/presentation/widgets/build_svg_icon.dart';
 
 class LoginWidgets {
   static Widget buildBody() {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/imgs/in-app-logo.png'),
+              BuildSvgIcon(assetKey: AssetKeys.appLogo),
             ],
           ),
         ),
@@ -34,7 +37,7 @@ class LoginWidgets {
           minimumSize: const Size.fromHeight(45),
         ),
         child: const Text(
-          'Unlock App',
+          LangKeys.UNLOCK_APP,
           style: TextStyle(
             color: Colors.white,
             fontSize: 16.0,
