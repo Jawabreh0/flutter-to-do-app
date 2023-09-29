@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
         title: const HomeAppBar(),
       ),
       backgroundColor: appColor,
-      body: const EmptyHomeScreenWidgets(),
+      body: EmptyHomeScreenWidgets(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: appSecondaryColor,
         onPressed: () {
@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom,
               ),
-              child: const BottomSheetWidgets(),
+              child: BottomSheetWidgets(),
             ),
             backgroundColor: bottomSheetColor,
           );

@@ -3,9 +3,13 @@ import 'package:todo/core/constants/assset_keys.dart';
 import 'package:todo/core/constants/lang_keys.dart';
 import 'package:todo/core/constants/palette.dart';
 import 'package:todo/core/presentation/widgets/build_svg_icon.dart';
+import 'package:get/get.dart';
+import 'package:todo/presentation/features/home/controller/home_ctrl.dart';
 
 class BottomSheetWidgets extends StatelessWidget {
-  const BottomSheetWidgets({super.key});
+  BottomSheetWidgets({super.key});
+
+  final TaskController taskController = Get.put(TaskController());
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +70,7 @@ class BottomSheetWidgets extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 26.0, 0.0),
       child: TextField(
+        controller: taskController.taskTitleController,
         style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -94,6 +99,7 @@ class BottomSheetWidgets extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 26.0, 0.0),
       child: TextField(
+        controller: taskController.taskDescriptionController,
         style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -135,6 +141,7 @@ class BottomSheetWidgets extends StatelessWidget {
           },
         );
         if (selectedDate != null) {
+          taskController.selectedDate.value = selectedDate;
           TimeOfDay? selectedTime = await showTimePicker(
             context: context,
             initialTime: TimeOfDay.now(),
@@ -147,7 +154,7 @@ class BottomSheetWidgets extends StatelessWidget {
           );
 
           if (selectedTime != null) {
-            // TODO: Do something with the selected date and time
+            taskController.selectedTime.value = selectedTime;
           }
         }
       },
@@ -169,7 +176,7 @@ class BottomSheetWidgets extends StatelessWidget {
     return IconButton(
       icon: const BuildSvgIcon(assetKey: AssetKeys.sendIcon),
       onPressed: () {
-        // TODO: Send The Task Info To The Database
+        taskController.addTask();
       },
       color: Colors.white,
     );

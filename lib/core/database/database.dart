@@ -17,7 +17,7 @@ class AppDatabase {
   Future<Database> _initialDb() async {
     String databasePath = await getDatabasesPath();
     String path = join(databasePath, 'ToDoApp.db');
-    Database myDb = await openDatabase(path, version: 1, onCreate: _onCreate);
+    Database myDb = await openDatabase(path, version: 2, onCreate: _onCreate);
     return myDb;
   }
 
@@ -29,7 +29,7 @@ class AppDatabase {
         taskDescription TEXT NOT NULL,
         taskDate TEXT NOT NULL,
         taskTime TEXT NOT NULL,
-        taskCategory TEXT NOT NULL,
+        taskCategory TEXT ,
         taskPrivacy INTEGER DEFAULT 0,
         taskCompletion BOOLEAN DEFAULT 0
       );

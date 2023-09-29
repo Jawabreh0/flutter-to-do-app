@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo/core/constants/palette.dart';
-import 'package:todo/presentation/features/login/screen/login_screen.dart';
+import 'package:todo/presentation/features/home/controller/home_ctrl.dart';
+import 'package:todo/presentation/features/home/screen/home_screen.dart';
 
 void main() {
+  Get.put(TaskController()); // Initialize the TaskController
+
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
@@ -11,8 +14,8 @@ void main() {
         scaffoldBackgroundColor: appColor,
         fontFamily: 'Lato',
       ),
-      home: Scaffold(
-        body: LoginScreen(),
+      home: const Scaffold(
+        body: HomeScreen(),
       ),
     ),
   );
