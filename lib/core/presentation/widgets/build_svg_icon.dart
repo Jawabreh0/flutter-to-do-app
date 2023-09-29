@@ -5,12 +5,12 @@ import 'package:todo/core/constants/assset_keys.dart';
 class BuildSvgIcon extends StatelessWidget {
   final String assetKey;
 
-  const BuildSvgIcon({required this.assetKey});
+  const BuildSvgIcon({super.key, required this.assetKey});
 
   @override
   Widget build(BuildContext context) {
     return SvgPicture.asset(
-      "${AssetKeys.iconsPath}${this.assetKey}${AssetKeys.svgExtension}",
+      "${AssetKeys.iconsPath}$assetKey${AssetKeys.svgExtension}",
     );
   }
 }

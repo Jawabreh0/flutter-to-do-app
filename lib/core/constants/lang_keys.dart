@@ -12,4 +12,7 @@ class LangKeys {
   static const String BIOMETRIC_SUPPORT_IS_NOT_AVAILABLE =
       "Biometric support is not available";
   static const String ERROR = "Error";
+  static const String WHAT_DO_YOU_WANT_TO_DO_TODAY =
+      "What do you want to do today?";
+  static const String TAP_TO_ADD_YOUR_TASKS = "Tap + to add your tasks";
 }

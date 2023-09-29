@@ -1,13 +1,27 @@
-// Clean
-
 import 'package:flutter/material.dart';
+import 'package:todo/core/constants/assset_keys.dart';
 import 'package:todo/core/constants/lang_keys.dart';
 import 'package:todo/core/constants/palette.dart';
-import 'package:todo/core/constants/assset_keys.dart';
 import 'package:todo/core/presentation/widgets/build_svg_icon.dart';
 
-class LoginWidgets {
-  static Widget buildBody() {
+class LoginWidgets extends StatelessWidget {
+  final Function authentication;
+  final Function getAvailableBiometrics;
+
+  const LoginWidgets(
+      {super.key,
+      required this.authentication,
+      required this.getAvailableBiometrics});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: buildBody(),
+      bottomNavigationBar: buildBottomButton(),
+    );
+  }
+
+  Widget buildBody() {
     return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -23,8 +37,7 @@ class LoginWidgets {
     );
   }
 
-  static Widget buildBottomButton(
-      Function authentication, Function getAvailableBiometrics) {
+  Widget buildBottomButton() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 75.0, left: 20, right: 20),
       child: ElevatedButton(

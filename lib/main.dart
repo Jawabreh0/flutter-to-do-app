@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo/core/constants/palette.dart';
 import 'package:todo/presentation/features/login/screen/login_screen.dart';
 
 void main() {
@@ -7,7 +8,8 @@ void main() {
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: 'Lato', 
+        scaffoldBackgroundColor: appColor,
+        fontFamily: 'Lato',
       ),
       home: Scaffold(
         body: LoginScreen(),
