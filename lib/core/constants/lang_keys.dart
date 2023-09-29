@@ -15,4 +15,9 @@ class LangKeys {
   static const String WHAT_DO_YOU_WANT_TO_DO_TODAY =
       "What do you want to do today?";
   static const String TAP_TO_ADD_YOUR_TASKS = "Tap + to add your tasks";
+  static const String HOME = "Home";
+  static const String TASK = "Task";
+  static const String ADD_TASK = "Add Task";
+  static const String TASK_TITLE = "Task Title";
+  static const String DESCRIPTION = 'Description';
 }

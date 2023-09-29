@@ -3,8 +3,17 @@ import 'package:todo/core/constants/assset_keys.dart';
 import 'package:todo/core/constants/lang_keys.dart';
 import 'package:todo/core/presentation/widgets/build_svg_icon.dart';
 
-class EmptyHomeWidget {
-  static Widget emptyHomeBody() {
+class EmptyHomeScreenWidgets extends StatelessWidget {
+  const EmptyHomeScreenWidgets({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: emptyHomeBody(),
+    );
+  }
+
+  Widget emptyHomeBody() {
     return Column(
       children: [
         homeImage(),
@@ -14,7 +23,7 @@ class EmptyHomeWidget {
     );
   }
 
-  static Widget homeImage() {
+  Widget homeImage() {
     return const Center(
       child: Padding(
         padding: EdgeInsets.only(top: 90, bottom: 30),
@@ -23,7 +32,7 @@ class EmptyHomeWidget {
     );
   }
 
-  static Widget homeMainText() {
+  Widget homeMainText() {
     return const Text(
       LangKeys.WHAT_DO_YOU_WANT_TO_DO_TODAY,
       style: TextStyle(
@@ -34,7 +43,7 @@ class EmptyHomeWidget {
     );
   }
 
-  static Widget homeSecText() {
+  Widget homeSecText() {
     return const Padding(
       padding: EdgeInsets.only(top: 20.0),
       child: Text(
