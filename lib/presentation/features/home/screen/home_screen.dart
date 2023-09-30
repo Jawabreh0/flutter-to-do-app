@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:todo/core/constants/palette.dart';
+import 'package:todo/presentation/features/home/controller/home_ctrl.dart';
 import 'package:todo/presentation/features/home/widgets/bottom_sheet_widget.dart';
+import 'package:todo/presentation/features/home/widgets/empty_screen_widgets.dart';
 import 'package:todo/presentation/features/home/widgets/home_app_bar.dart';
 import 'package:todo/presentation/features/home/widgets/home_with_records_widget.dart';
 
@@ -9,6 +12,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TaskController taskController = Get.find();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appColor,
@@ -16,7 +20,13 @@ class HomeScreen extends StatelessWidget {
         title: const HomeAppBar(),
       ),
       backgroundColor: appColor,
-      body: const HomeWithRecords(),
+      body: Obx(() {
+        return taskController.isLoading.value
+            ? const Center(child: CircularProgressIndicator())
+            : (taskController.tasks.isNotEmpty
+                ? HomeWithRecords()
+                : const EmptyHomeScreenWidgets());
+      }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: appSecondaryColor,
         onPressed: () {

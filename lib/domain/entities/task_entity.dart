@@ -4,7 +4,7 @@ class Task {
   final String description;
   final String date;
   final String time;
-  final bool completed; // Added this
+  final bool completed;
 
   Task({
     required this.id,
@@ -12,6 +12,6 @@ class Task {
     required this.description,
     required this.date,
     required this.time,
-    required this.completed, // And this
+    required this.completed,
   });
 }

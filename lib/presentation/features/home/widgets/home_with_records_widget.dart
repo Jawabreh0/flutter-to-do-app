@@ -8,16 +8,23 @@ import 'package:todo/domain/entities/task_entity.dart';
 import 'package:todo/presentation/features/home/controller/home_ctrl.dart';
 
 class HomeWithRecords extends StatelessWidget {
-  const HomeWithRecords({super.key});
+  HomeWithRecords({super.key});
+  final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final TaskController taskController = Get.find();
+
+    searchController.addListener(() {
+      taskController.searchTask(searchController.text);
+    });
+
     return SingleChildScrollView(
       child: Column(
         children: [
           homeSeachBar(),
           const SizedBox(height: 20),
-          taskFilterButton(),
+          taskFilterButton(taskController),
           const SizedBox(height: 16),
           taskCards(),
         ],
@@ -29,6 +36,7 @@ class HomeWithRecords extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 25, 24, 0),
       child: TextField(
+        controller: searchController,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(20.0),
           labelText: LangKeys.SEARCH_FOR_YOUR_TASK,
@@ -54,7 +62,7 @@ class HomeWithRecords extends StatelessWidget {
     );
   }
 
-  Widget taskFilterButton() {
+  Widget taskFilterButton(TaskController taskController) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
@@ -66,28 +74,37 @@ class HomeWithRecords extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: DropdownButton<String>(
-              items: <String>['All', 'Completed', 'Today'].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: const TextStyle(
-                      color: Colors.white,
+            child: Obx(() {
+              // Wrapping with Obx
+              return DropdownButton<String>(
+                value: taskController
+                    .currentFilter.value, // Obx will update this value
+                items:
+                    <String>['All', 'Completed', 'Today'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                if (newValue != null) {}
-              },
-              underline: Container(),
-              icon: const Icon(
-                Icons.arrow_drop_down,
-                color: Colors.white,
-              ),
-              dropdownColor: bottomSheetColor,
-            ),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  if (newValue != null) {
+                    taskController.currentFilter.value = newValue;
+                    taskController.applyFilter();
+                  }
+                },
+                underline: Container(),
+                icon: const Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.white,
+                ),
+                dropdownColor: bottomSheetColor,
+              );
+            }),
           ),
         ),
       ),
@@ -102,9 +119,9 @@ class HomeWithRecords extends StatelessWidget {
         return ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: taskController.tasks.length,
+          itemCount: taskController.filteredTasks.length,
           itemBuilder: (context, index) {
-            Task task = taskController.tasks[index];
+            Task task = taskController.filteredTasks[index];
             return Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: Card(
@@ -123,7 +140,7 @@ class HomeWithRecords extends StatelessWidget {
                     onChanged: (value) {
                       taskController.updateTaskCompletion(task.id, value!);
                     },
-                    shape: const CircleBorder(), // Makes it circular
+                    shape: const CircleBorder(),
                   ),
                 ),
               ),
