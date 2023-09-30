@@ -10,7 +10,7 @@ class HomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TaskController taskController =
+    final HomeController taskController =
         Get.find(); // Get the controller instance
 
     return Padding(

@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:todo/domain/entities/task_entity.dart';
 import 'package:todo/domain/interactors/task_interactor.dart';
 
-class TaskController extends GetxController {
+class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();

@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TaskController taskController = Get.find();
+    final HomeController taskController = Get.find();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appColor,

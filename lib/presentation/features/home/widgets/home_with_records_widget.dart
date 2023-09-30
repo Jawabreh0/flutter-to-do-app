@@ -13,12 +13,10 @@ class HomeWithRecords extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TaskController taskController = Get.find();
-
+    final HomeController taskController = Get.find();
     searchController.addListener(() {
       taskController.searchTask(searchController.text);
     });
-
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -62,7 +60,7 @@ class HomeWithRecords extends StatelessWidget {
     );
   }
 
-  Widget taskFilterButton(TaskController taskController) {
+  Widget taskFilterButton(HomeController taskController) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
@@ -112,7 +110,7 @@ class HomeWithRecords extends StatelessWidget {
   }
 
   Widget taskCards() {
-    final TaskController taskController = Get.find();
+    final HomeController taskController = Get.find();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Obx(() {
@@ -140,6 +138,10 @@ class HomeWithRecords extends StatelessWidget {
                     onChanged: (value) {
                       taskController.updateTaskCompletion(task.id, value!);
                     },
+                    side: MaterialStateBorderSide.resolveWith(
+                      (states) =>
+                          const BorderSide(width: 1.0, color: Colors.white),
+                    ),
                     shape: const CircleBorder(),
                   ),
                 ),

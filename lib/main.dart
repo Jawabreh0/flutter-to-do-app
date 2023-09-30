@@ -5,7 +5,7 @@ import 'package:todo/presentation/features/home/controller/home_ctrl.dart';
 import 'package:todo/presentation/features/login/screen/login_screen.dart';
 
 void main() {
-  Get.put(TaskController());
+  Get.put(HomeController());
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,

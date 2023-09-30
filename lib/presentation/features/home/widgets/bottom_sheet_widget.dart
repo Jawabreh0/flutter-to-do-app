@@ -9,7 +9,7 @@ import 'package:todo/presentation/features/home/controller/home_ctrl.dart';
 class BottomSheetWidgets extends StatelessWidget {
   BottomSheetWidgets({super.key});
 
-  final TaskController taskController = Get.put(TaskController());
+  final HomeController taskController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
