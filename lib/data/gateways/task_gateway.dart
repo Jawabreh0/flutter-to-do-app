@@ -11,6 +11,7 @@ class TaskGateway {
       "taskDescription": task.description,
       "taskDate": task.date,
       "taskTime": task.time,
+      "taskCompletion": task.completed ? 1 : 0, // Added this
     });
   }
 
@@ -27,7 +28,18 @@ class TaskGateway {
         description: maps[i]['taskDescription'] as String,
         date: maps[i]['taskDate'] as String,
         time: maps[i]['taskTime'] as String,
+        completed: (maps[i]['taskCompletion'] as int? ?? 0) == 1 ? true : false,
       );
     });
+  }
+
+  Future<void> updateTaskCompletion(int id, bool completed) async {
+    final db = await _appDatabase.db;
+    await db?.update(
+      'Tasks',
+      {'taskCompletion': completed ? 1 : 0},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 }

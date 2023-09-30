@@ -5,8 +5,7 @@ import 'package:todo/presentation/features/home/controller/home_ctrl.dart';
 import 'package:todo/presentation/features/home/screen/home_screen.dart';
 
 void main() {
-  Get.put(TaskController()); // Initialize the TaskController
-
+  Get.put(TaskController());
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,

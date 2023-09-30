@@ -7,4 +7,5 @@ class AssetKeys {
   static const String timerIcon = "timer-icon";
   static const String tagIcon = "tag-icon";
   static const String sendIcon = "send-icon";
+  static const String searchIcon = "search";
 }

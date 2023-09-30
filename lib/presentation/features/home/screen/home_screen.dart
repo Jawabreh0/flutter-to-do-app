@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo/core/constants/palette.dart';
 import 'package:todo/presentation/features/home/widgets/bottom_sheet_widget.dart';
-import 'package:todo/presentation/features/home/widgets/empty_screen_widgets.dart';
 import 'package:todo/presentation/features/home/widgets/home_app_bar.dart';
+import 'package:todo/presentation/features/home/widgets/home_with_records_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
         title: const HomeAppBar(),
       ),
       backgroundColor: appColor,
-      body: EmptyHomeScreenWidgets(),
+      body: const HomeWithRecords(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: appSecondaryColor,
         onPressed: () {

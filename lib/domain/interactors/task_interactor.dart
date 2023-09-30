@@ -11,11 +11,16 @@ class TaskInteractor {
       description: description,
       date: date,
       time: time,
+      completed: false, // Added this
     );
     _taskGateway.addTask(task);
   }
 
   Future<List<Task>> getTasks() {
     return _taskGateway.fetchTasks();
+  }
+
+  void updateTaskCompletion(int id, bool completed) {
+    _taskGateway.updateTaskCompletion(id, completed);
   }
 }

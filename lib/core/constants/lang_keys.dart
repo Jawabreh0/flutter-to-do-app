@@ -20,4 +20,7 @@ class LangKeys {
   static const String ADD_TASK = "Add Task";
   static const String TASK_TITLE = "Task Title";
   static const String DESCRIPTION = 'Description';
+  static const String SEARCH_FOR_YOUR_TASK = "Search for your task...";
+  static const String TASK_ADDED_SUCCESSFULLY = "Task added successfully!";
+  static const String FAILED_TO_ADD_THE_TASK = "Failed to add the task";
 }
