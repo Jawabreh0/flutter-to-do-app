@@ -23,4 +23,7 @@ class LangKeys {
   static const String SEARCH_FOR_YOUR_TASK = "Search for your task...";
   static const String TASK_ADDED_SUCCESSFULLY = "Task added successfully!";
   static const String FAILED_TO_ADD_THE_TASK = "Failed to add the task";
+  static const String SHARE_TASK = "Share task";
+  static const String CALENDER = "Calendar";
+  static const String DELETE_TASK = "Delete Task";
 }

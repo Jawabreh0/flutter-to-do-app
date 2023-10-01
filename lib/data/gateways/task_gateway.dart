@@ -42,4 +42,15 @@ class TaskGateway {
       whereArgs: [id],
     );
   }
+
+  Future<void> updateTask(
+      int id, String newTitle, String newDescription) async {
+    final db = await _appDatabase.db;
+    await db?.update(
+      'Tasks',
+      {'taskTitle': newTitle, 'taskDescription': newDescription},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
 }

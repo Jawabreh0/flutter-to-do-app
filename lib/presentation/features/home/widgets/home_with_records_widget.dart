@@ -6,6 +6,7 @@ import 'package:todo/core/constants/palette.dart';
 import 'package:todo/core/presentation/widgets/build_svg_icon.dart';
 import 'package:todo/domain/entities/task_entity.dart';
 import 'package:todo/presentation/features/home/controller/home_ctrl.dart';
+import 'package:todo/presentation/features/task/screen/task_screen.dart';
 
 class HomeWithRecords extends StatelessWidget {
   HomeWithRecords({super.key});
@@ -122,27 +123,32 @@ class HomeWithRecords extends StatelessWidget {
             Task task = taskController.filteredTasks[index];
             return Padding(
               padding: const EdgeInsets.only(bottom: 16),
-              child: Card(
-                color: bottomSheetColor,
-                child: ListTile(
-                  title: Text(
-                    task.title,
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  subtitle: Text(
-                    "${task.date} At ${task.time}",
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  leading: Checkbox(
-                    value: task.completed,
-                    onChanged: (value) {
-                      taskController.updateTaskCompletion(task.id, value!);
-                    },
-                    side: MaterialStateBorderSide.resolveWith(
-                      (states) =>
-                          const BorderSide(width: 1.0, color: Colors.white),
+              child: InkWell(
+                onTap: () {
+                  Get.to(() => TaskScreen(task: task));
+                },
+                child: Card(
+                  color: bottomSheetColor,
+                  child: ListTile(
+                    title: Text(
+                      task.title,
+                      style: const TextStyle(color: Colors.white),
                     ),
-                    shape: const CircleBorder(),
+                    subtitle: Text(
+                      "${task.date} At ${task.time}",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    leading: Checkbox(
+                      value: task.completed,
+                      onChanged: (value) {
+                        taskController.updateTaskCompletion(task.id, value!);
+                      },
+                      side: MaterialStateBorderSide.resolveWith(
+                        (states) =>
+                            const BorderSide(width: 1.0, color: Colors.white),
+                      ),
+                      shape: const CircleBorder(),
+                    ),
                   ),
                 ),
               ),

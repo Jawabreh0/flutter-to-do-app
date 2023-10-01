@@ -8,4 +8,7 @@ class AssetKeys {
   static const String tagIcon = "tag-icon";
   static const String sendIcon = "send-icon";
   static const String searchIcon = "search";
+  static const String shareIcon = "share";
+  static const String trashIcon = "trash";
+  static const String editIcon = "edit";
 }
