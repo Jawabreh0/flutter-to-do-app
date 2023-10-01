@@ -24,7 +24,8 @@ class TaskInteractor {
     _taskGateway.updateTaskCompletion(id, completed);
   }
 
-  void updateTask(int id, String newTitle, String newDescription) {
-    _taskGateway.updateTask(id, newTitle, newDescription);
+  void updateTask(int id, String newTitle, String newDescription,
+      String newDate, String newTime) {
+    _taskGateway.updateTask(id, newTitle, newDescription, newDate, newTime);
   }
 }

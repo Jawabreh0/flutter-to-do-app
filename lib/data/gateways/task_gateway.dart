@@ -43,12 +43,17 @@ class TaskGateway {
     );
   }
 
-  Future<void> updateTask(
-      int id, String newTitle, String newDescription) async {
+  Future<void> updateTask(int id, String newTitle, String newDescription,
+      String newDate, String newTime) async {
     final db = await _appDatabase.db;
     await db?.update(
       'Tasks',
-      {'taskTitle': newTitle, 'taskDescription': newDescription},
+      {
+        'taskTitle': newTitle,
+        'taskDescription': newDescription,
+        'taskDate': newDate,
+        'taskTime': newTime,
+      },
       where: 'id = ?',
       whereArgs: [id],
     );

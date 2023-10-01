@@ -3,15 +3,18 @@ import 'package:get/get.dart';
 import 'package:todo/core/constants/assset_keys.dart';
 import 'package:todo/core/constants/lang_keys.dart';
 import 'package:todo/core/constants/palette.dart';
+import 'package:todo/core/presentation/mixins/snackbar_mixin.dart';
 import 'package:todo/core/presentation/widgets/build_svg_icon.dart';
 import 'package:todo/domain/entities/task_entity.dart';
 import 'package:todo/domain/interactors/task_interactor.dart';
+import 'package:todo/presentation/features/home/screen/home_screen.dart';
 import 'package:todo/presentation/features/task/controller/task_ctrl.dart';
 
-class TaskWidget extends StatelessWidget {
+class TaskWidget extends StatelessWidget with SnackbarMixin {
   final Task task;
+  final controller = Get.put(TaskController(TaskInteractor()));
 
-  const TaskWidget({Key? key, required this.task}) : super(key: key);
+  TaskWidget({Key? key, required this.task}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +175,6 @@ class TaskWidget extends StatelessWidget {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
-                              controller.updateTask(task.id);
                               Get.back();
                             },
                             style: ElevatedButton.styleFrom(
@@ -237,7 +239,28 @@ class TaskWidget extends StatelessWidget {
             ],
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () async {
+              DateTime? selectedDate = await showDatePicker(
+                context: Get.context!,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2021),
+                lastDate: DateTime(2101),
+              );
+
+              if (selectedDate != null) {
+                TimeOfDay? selectedTime = await showTimePicker(
+                  context: Get.context!,
+                  initialTime: TimeOfDay.now(),
+                );
+
+                if (selectedTime != null) {
+                  controller.setDateAndTime(
+                    selectedDate,
+                    selectedTime,
+                  );
+                }
+              }
+            },
             style: ButtonStyle(
               backgroundColor:
                   MaterialStateProperty.all<Color>(bottomSheetColor),
@@ -290,7 +313,7 @@ class TaskWidget extends StatelessWidget {
     );
   }
 
-  static Widget taskActionButtons() {
+  Widget taskActionButtons() {
     return Align(
       alignment: Alignment.centerLeft,
       child: Column(
@@ -352,9 +375,19 @@ class TaskWidget extends StatelessWidget {
     );
   }
 
-  static Widget editTaskSubmitButton() {
+  Widget editTaskSubmitButton() {
+    final controller = Get.find<TaskController>();
+
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        controller.updateTask(
+          task.id,
+          task.date,
+          task.time,
+        );
+        showSnackbar(LangKeys.SUCCESS, "Task Added Successfully");
+        Get.offAll(const HomeScreen());
+      },
       child: Container(
         width: double.infinity,
         height: 50,
