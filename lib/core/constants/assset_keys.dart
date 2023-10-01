@@ -11,4 +11,5 @@ class AssetKeys {
   static const String shareIcon = "share";
   static const String trashIcon = "trash";
   static const String editIcon = "edit";
+  static const String cancelIcon = "cancel-icon";
 }

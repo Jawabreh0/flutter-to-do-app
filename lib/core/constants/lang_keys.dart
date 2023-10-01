@@ -27,4 +27,11 @@ class LangKeys {
   static const String CALENDER = "Calendar";
   static const String DELETE_TASK = "Delete Task";
   static const String TASK_UPDATED_SUCCESSFULLY = "Task Updated Successfully";
+  static const String MARK_AS_COMPLETE = "Mark as Complete";
+  static const String CATEGORY_NAME_ = "Category name :";
+  static const String CATEGORY_NAME = "Category name";
+  static const String CATEGORY_ICON_ = "Category icon :";
+  static const String CATEGORY_COLOR_ = "Category color :";
+  static const String CANCEL = "Cancel";
+  static const String CREATE_CATEGORY = "Create Category";
 }

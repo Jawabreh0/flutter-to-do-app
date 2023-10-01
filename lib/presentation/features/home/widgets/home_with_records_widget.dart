@@ -125,7 +125,7 @@ class HomeWithRecords extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 16),
               child: InkWell(
                 onTap: () {
-                  Get.to(() => TaskScreen(task: task));
+                  Get.offAll(() => TaskScreen(task: task));
                 },
                 child: Card(
                   color: bottomSheetColor,
