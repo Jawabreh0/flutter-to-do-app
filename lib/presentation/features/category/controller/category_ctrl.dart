@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo/domain/entities/category_entity.dart';
+import 'package:todo/domain/interactors/category_interactor.dart';
 
 class CategoryController extends GetxController {
+  final CreateCategory createCategory;
   var selectedIcon = Rx<IconData?>(null);
   var selectedColor = Rx<Color?>(null);
+  var name = Rx<String?>("");
 
+  final TextEditingController textEditingController = TextEditingController();
+
+  CategoryController(this.createCategory);
   final List<IconData> iconsList = [
     Icons.star,
     Icons.favorite,
@@ -37,5 +44,38 @@ class CategoryController extends GetxController {
 
   void updateColor(Color newColor) {
     selectedColor.value = newColor;
+  }
+
+  void create() {
+    // Step 2: Read the text from TextEditingController
+    name.value = textEditingController.text;
+
+    // Proceed only if all fields are non-null
+    if (selectedIcon.value != null &&
+        selectedColor.value != null &&
+        name.value != null &&
+        name.value!.isNotEmpty) {
+      final category = Category(
+        name: name.value!,
+        icon: selectedIcon.value!,
+        color: selectedColor.value!,
+      );
+      createCategory(category);
+    } else {
+      // Handle the error state. Perhaps show a notification
+    }
+  }
+
+  var categories = RxList<Category>();
+
+  Future<void> fetchCategories() async {
+    final fetchedCategories = await createCategory.repository.getCategories();
+    categories.assignAll(fetchedCategories);
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchCategories();
   }
 }

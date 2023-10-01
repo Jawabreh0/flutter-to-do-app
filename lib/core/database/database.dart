@@ -22,17 +22,28 @@ class AppDatabase {
   }
 
   Future<void> _onCreate(Database db, int version) async {
+    // Create the Tasks table
     await db.execute('''
-      CREATE TABLE Tasks (
-        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        taskTitle TEXT NOT NULL,
-        taskDescription TEXT NOT NULL,
-        taskDate TEXT NOT NULL,
-        taskTime TEXT NOT NULL,
-        taskCategory TEXT ,
-        taskPrivacy INTEGER DEFAULT 0,
-        taskCompletion BOOLEAN DEFAULT 0
-      );
-    ''');
+    CREATE TABLE Tasks (
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      taskTitle TEXT NOT NULL,
+      taskDescription TEXT NOT NULL,
+      taskDate TEXT NOT NULL,
+      taskTime TEXT NOT NULL,
+      taskCategory TEXT ,
+      taskPrivacy INTEGER DEFAULT 0,
+      taskCompletion BOOLEAN DEFAULT 0
+    );
+  ''');
+
+    // Create the Categories table
+    await db.execute('''
+    CREATE TABLE Categories (
+      catgID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      catgName TEXT ,
+      catgIcon INTEGER ,
+      catgColor TEXT
+    );
+  ''');
   }
 }

@@ -2,26 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo/core/constants/lang_keys.dart';
 import 'package:todo/core/constants/palette.dart';
+import 'package:todo/domain/interactor_impl/category_impl.dart';
+import 'package:todo/domain/interactors/category_interactor.dart';
 import 'package:todo/presentation/features/category/controller/category_ctrl.dart';
 
 class CategoryWidgets extends StatelessWidget {
-  final CategoryController categoryController = Get.put(CategoryController());
+  final CategoryController categoryController = Get.put(CategoryController(
+      CreateCategory(
+          MemoryCategoryRepository()))); // Pass your actual dependencies here
 
   CategoryWidgets({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        catgNameText(),
-        catgNameField(),
-        catgIconText(),
-        iconDropDown(),
-        catgColorText(),
-        colorSelectorRow(),
-        createCatgButton(),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          catgNameText(),
+          catgNameField(),
+          catgIconText(),
+          iconDropDown(),
+          catgColorText(),
+          colorSelectorRow(),
+          createCatgButton(),
+        ],
+      ),
     );
   }
 
@@ -42,6 +48,7 @@ class CategoryWidgets extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 16.0),
       child: TextField(
+        controller: categoryController.textEditingController,
         style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w400,
@@ -123,7 +130,10 @@ class CategoryWidgets extends StatelessWidget {
           const SizedBox(width: 16),
           Expanded(
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                categoryController
+                    .create(); // Calling create method when button is pressed
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: appSecondaryColor,
                 padding: EdgeInsets.zero,

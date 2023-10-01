@@ -36,7 +36,7 @@ class BottomSheetWidgets extends StatelessWidget {
                 const SizedBox(
                   width: 16.0,
                 ),
-                tagIconButton(),
+                tagIconButton(context),
               ],
             ),
             Expanded(
@@ -162,12 +162,10 @@ class BottomSheetWidgets extends StatelessWidget {
     );
   }
 
-  Widget tagIconButton() {
+  Widget tagIconButton(BuildContext context) {
     return IconButton(
       icon: const BuildSvgIcon(assetKey: AssetKeys.tagIcon),
-      onPressed: () {
-        //TODO: Make something with the tag icon
-      },
+      onPressed: () {},
       color: Colors.white,
     );
   }
