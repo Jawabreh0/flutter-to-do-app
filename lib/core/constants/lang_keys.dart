@@ -26,4 +26,5 @@ class LangKeys {
   static const String SHARE_TASK = "Share task";
   static const String CALENDER = "Calendar";
   static const String DELETE_TASK = "Delete Task";
+  static const String TASK_UPDATED_SUCCESSFULLY = "Task Updated Successfully";
 }

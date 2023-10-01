@@ -3,14 +3,14 @@ import 'package:get/get.dart';
 import 'package:todo/core/constants/assset_keys.dart';
 import 'package:todo/core/constants/lang_keys.dart';
 import 'package:todo/core/constants/palette.dart';
-import 'package:todo/core/presentation/mixins/snackbar_mixin.dart';
 import 'package:todo/core/presentation/widgets/build_svg_icon.dart';
 import 'package:todo/domain/entities/task_entity.dart';
 import 'package:todo/domain/interactors/task_interactor.dart';
+import 'package:todo/presentation/features/home/controller/home_ctrl.dart';
 import 'package:todo/presentation/features/home/screen/home_screen.dart';
 import 'package:todo/presentation/features/task/controller/task_ctrl.dart';
 
-class TaskWidget extends StatelessWidget with SnackbarMixin {
+class TaskWidget extends StatelessWidget {
   final Task task;
   final controller = Get.put(TaskController(TaskInteractor()));
 
@@ -330,7 +330,9 @@ class TaskWidget extends StatelessWidget with SnackbarMixin {
           Padding(
             padding: const EdgeInsets.only(left: 25),
             child: ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                controller.shareTaskInfo(task);
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 elevation: 0,
@@ -358,7 +360,9 @@ class TaskWidget extends StatelessWidget with SnackbarMixin {
           Padding(
             padding: const EdgeInsets.only(left: 25),
             child: ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                controller.deleteTask(task.id);
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 elevation: 0,
@@ -379,14 +383,15 @@ class TaskWidget extends StatelessWidget with SnackbarMixin {
     final controller = Get.find<TaskController>();
 
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         controller.updateTask(
           task.id,
           task.date,
           task.time,
         );
-        showSnackbar(LangKeys.SUCCESS, "Task Added Successfully");
-        Get.offAll(const HomeScreen());
+        final homeController = Get.find<HomeController>();
+        await homeController.fetchTasks();
+        Get.offAll(() => HomeScreen());
       },
       child: Container(
         width: double.infinity,

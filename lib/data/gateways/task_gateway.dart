@@ -58,4 +58,13 @@ class TaskGateway {
       whereArgs: [id],
     );
   }
+
+  Future<void> deleteTask(int taskId) async {
+    final db = await _appDatabase.db;
+    await db?.delete(
+      'Tasks',
+      where: 'id = ?',
+      whereArgs: [taskId],
+    );
+  }
 }

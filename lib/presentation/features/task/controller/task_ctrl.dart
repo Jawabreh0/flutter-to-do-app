@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:todo/domain/interactors/task_interactor.dart';
+import 'package:todo/domain/entities/task_entity.dart';
 
 class TaskController extends GetxController {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
+  late Task task;
 
   final TaskInteractor _taskInteractor;
 
@@ -40,5 +43,18 @@ class TaskController extends GetxController {
         selectedTime?.format(Get.context!) ?? newTime,
       );
     }
+  }
+
+  void shareTaskInfo(Task task) {
+    final taskInfo = 'Task Title: ${task.title}\n'
+        'Task Description: ${task.description}\n'
+        'Task Date: ${task.date}\n'
+        'Task Time: ${task.time}';
+
+    Share.share(taskInfo);
+  }
+
+  void deleteTask(int taskId) {
+    _taskInteractor.deleteTask(taskId);
   }
 }

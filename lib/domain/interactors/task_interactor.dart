@@ -28,4 +28,8 @@ class TaskInteractor {
       String newDate, String newTime) {
     _taskGateway.updateTask(id, newTitle, newDescription, newDate, newTime);
   }
+
+  void deleteTask(int taskId) {
+    _taskGateway.deleteTask(taskId);
+  }
 }
