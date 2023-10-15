@@ -8,3 +8,6 @@ Color fieldBordersColor = const Color(0xFF979797);
 Color hintFontColor = const Color(0xFFAFAFAF);
 Color modifyTaskColor = const Color(0xFF1D1D1D);
 Color deleteTaskRedColor = const Color(0xFFFF4949);
+Color weirdGreen = const Color(0xFF80FFD1);
+Color secondWeirdGreen = const Color(0xFF00A369);
+Color taskCaalenderColor = const Color(0xFF66a93b);

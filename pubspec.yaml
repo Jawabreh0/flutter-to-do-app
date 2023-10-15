@@ -41,6 +41,7 @@ dependencies:
   local_auth: ^2.1.7
   flutter_svg: ^2.0.7
   intl: ^0.18.1
+  paged_vertical_calendar: ^1.1.6
 
 dev_dependencies:
   flutter_test:

@@ -1,70 +1,52 @@
+import 'package:sqflite/sqflite.dart';
 import 'package:todo/core/database/database.dart';
-import 'package:todo/domain/entities/task_entity.dart';
+import 'package:todo/domain/enitity/task_entity.dart';
 
 class TaskGateway {
-  final AppDatabase _appDatabase = AppDatabase();
+  final AppDatabase _appDatabase;
 
-  Future<void> addTask(Task task) async {
-    final db = await _appDatabase.db;
-    await db?.insert("Tasks", {
-      "taskTitle": task.title,
-      "taskDescription": task.description,
-      "taskDate": task.date,
-      "taskTime": task.time,
-      "taskCompletion": task.completed ? 1 : 0, // Added this
-    });
+  TaskGateway(this._appDatabase);
+
+  Future<void> saveTask(TaskEntity task) async {
+    final Database? db = await _appDatabase.db;
+    await db!.insert('Tasks', task.toMap());
   }
 
-  Future<List<Task>> fetchTasks() async {
-    final db = await _appDatabase.db;
-    final List<Map<String, Object?>>? maps = await db?.query("Tasks");
-
-    if (maps == null) return [];
-
-    return List.generate(maps.length, (i) {
-      return Task(
-        id: maps[i]['id'] as int,
-        title: maps[i]['taskTitle'] as String,
-        description: maps[i]['taskDescription'] as String,
-        date: maps[i]['taskDate'] as String,
-        time: maps[i]['taskTime'] as String,
-        completed: (maps[i]['taskCompletion'] as int? ?? 0) == 1 ? true : false,
-      );
-    });
+  Future<List<TaskEntity>> getTasks() async {
+    final Database? db = await _appDatabase.db;
+    final List<Map<String, dynamic>> maps = await db!.query('Tasks');
+    return List.generate(
+      maps.length,
+      (i) => TaskEntity.fromMap(maps[i]),
+    );
   }
 
-  Future<void> updateTaskCompletion(int id, bool completed) async {
-    final db = await _appDatabase.db;
-    await db?.update(
+  Future<void> updateTask(TaskEntity task) async {
+    final Database? db = await _appDatabase.db;
+    await db!.update(
       'Tasks',
-      {'taskCompletion': completed ? 1 : 0},
+      task.toMap(),
+      where: 'id = ?',
+      whereArgs: [task.id],
+    );
+  }
+
+  Future<void> deleteTask(int id) async {
+    final Database? db = await _appDatabase.db;
+    await db!.delete(
+      'Tasks',
       where: 'id = ?',
       whereArgs: [id],
     );
   }
 
-  Future<void> updateTask(int id, String newTitle, String newDescription,
-      String newDate, String newTime) async {
-    final db = await _appDatabase.db;
-    await db?.update(
+  Future<void> updateTaskData(int id, String newDate, String newTime) async {
+    final Database? db = await _appDatabase.db;
+    await db!.update(
       'Tasks',
-      {
-        'taskTitle': newTitle,
-        'taskDescription': newDescription,
-        'taskDate': newDate,
-        'taskTime': newTime,
-      },
+      {'taskDate': newDate, 'taskTime': newTime},
       where: 'id = ?',
       whereArgs: [id],
-    );
-  }
-
-  Future<void> deleteTask(int taskId) async {
-    final db = await _appDatabase.db;
-    await db?.delete(
-      'Tasks',
-      where: 'id = ?',
-      whereArgs: [taskId],
     );
   }
 }

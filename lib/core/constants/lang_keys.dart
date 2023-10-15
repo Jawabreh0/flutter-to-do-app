@@ -34,4 +34,26 @@ class LangKeys {
   static const String CATEGORY_COLOR_ = "Category color :";
   static const String CANCEL = "Cancel";
   static const String CREATE_CATEGORY = "Create Category";
+  static const String EDIT_TASK_TITLE = 'Edit Task title';
+  static const String TASK_DESCRIPTION = "Task Description";
+  static const String EDIT = "EDIT";
+  static const String EDIT_TASK = "Edit Task";
+  static const String TASK_TIME_ = "Task Time :";
+  static const String CANT_KEEP_TASK_FIELD_EMPTY =
+      "Can't keep task field empty";
+  static const String DATE_OR_TIME_CANT_BE_EMPTY =
+      "Date or Time can't be empty";
+  static const String CHOOSE_AN_ICON = "Choose an icon";
+  static const String ALL = "All";
+  static const String COMPLETED = "Completed";
+  static const String TODAY = 'Today';
+  static const String CLOSE = "Close";
+  static const String CATEGORY_CANT_BE_EMPTY = "Category can't be empty";
+  static const String CHOOSE = "Choose";
+  static const String SELECT_A_CATEGORY = 'Choose Category';
+  static const String CREATE_NEW = "Create New";
+  static const String CATEGORY_IS_EMPTY = 'Category name is empty';
+  static const String PLEASE_CHOOSE_AN_ICON = 'Please choose an icon';
+  static const String PLEASE_SLECET_A_COLOR = 'Please select a color';
+  static const String TASK_CATEGORY_ = "Task Category :";
 }
